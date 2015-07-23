@@ -1,0 +1,23 @@
+default: &default
+  username: good_deeds_development
+  password: password
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+
+development:
+  <<: *default
+  database: good_deeds_development
+
+test: &test
+  <<: *default
+  database: good_deeds_test
+
+production:
+  <<: *default
+  database: good_deeds_production
+  username: good_deeds
+  password: <%= ENV['GOOD_DEEDS_DATABASE_PASSWORD'] %>
+
+cucumber:
+  <<: *test
