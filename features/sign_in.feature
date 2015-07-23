@@ -4,19 +4,20 @@ Feature: Signing in
   Because I want to customize my preferences
 
 Scenario: Sign in
-  Given I am logged out
+  Given I am signed out
   And I have an account
-  When I sign in correctly
+  When I visit my account
+  And I sign in correctly
   Then I see the account page
 
 Scenario: Incorrect email
-  Given I am logged out
+  Given I am signed out
   And I have an account
   When I sign in with the wrong email
   Then I see an invalid email/password message
 
 Scenario: Incorrect password
-  Given I am logged out
+  Given I am signed out
   And I have an account
   When I sign in with the wrong password
   Then I see an invalid email/password message
