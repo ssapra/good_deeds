@@ -8,16 +8,16 @@ Scenario: Sign in
   And I have an account
   When I visit my account
   And I sign in correctly
-  Then I see the account page
+  Then I see my account
 
 Scenario: Incorrect email
   Given I am signed out
   And I have an account
   When I sign in with the wrong email
-  Then I see an invalid email/password message
+  Then I see an invalid email or password message
 
 Scenario: Incorrect password
   Given I am signed out
   And I have an account
   When I sign in with the wrong password
-  Then I see an invalid email/password message
+  Then I see an invalid email or password message
