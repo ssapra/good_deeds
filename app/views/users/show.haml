@@ -1,1 +1,20 @@
 %h1 My Account
+
+=form_for(@user) do |f|
+
+  -if @user.errors.any?
+    #error_explanation
+      %h2= pluralize(@user.errors.count, "error") + " prohibited this contact from being saved"
+      %ul
+        -@user.errors.full_messages.each do |msg|
+          %li= msg
+
+  =f.hidden_field :id, value: @user.id
+  %p
+    =f.label :zipcode
+    =f.text_field :zipcode
+  %p
+    =f.label :email
+    =f.text_field :email
+
+  =f.submit "Submit"
