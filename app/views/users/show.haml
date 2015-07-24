@@ -21,4 +21,17 @@
     =f.label :political_party
     =f.select(:political_party, POLITICAL_PARTIES)
 
+  Tags
+  %ul
+  -@user.tags.each do |tag|
+    %li{'data-tag-id' => tag.id}
+      =tag.name
+      =link_to "x", user_path(tag_id: tag.id), remote: true, method: :delete
+
+  =f.fields_for :user_tags, @user.user_tags.build do |tag_form|
+    %p
+      =tag_form.label :tag_name
+      =tag_form.collection_select(:tag_id, Tag.all, :id, :name, include_blank: true)
+      =tag_form.hidden_field :user_id, value: @user.id
+
   =f.submit "Submit"

@@ -30,8 +30,8 @@ Feature: Managing account settings
   Scenario: Update with new invalid email
     Given I am a new user
     And I visit the account page
-    When I set "user_email" to be "notvalidemail"
-    Then I see "Email must be valid"
+    When I set "user_email" as "notvalidemail"
+    Then I see "Email is invalid"
 
   Scenario: Update political party
     Given I am a new user with political party "Democratic Party"
@@ -41,26 +41,29 @@ Feature: Managing account settings
 
   Scenario: Add interest tag
     Given I am a new user
+    And there exists tags "Hunting"
     And I visit the account page
-    When I add a new tag "Food"
-    Then I see a confirmation message
+    When I select "Hunting"
+    Then I see "Updated tags"
 
+  @javascript
   Scenario: Remove interest tag
-    Given I am a new user
+    Given I am a new user with tags "Agriculture, Transportation"
     And I visit the account page
-    When I add a new tag "Food"
-    When I remove tag "Food"
-    Then I see a confirmation message
+    And I remove "Agriculture"
+    Then I see "Updated tags"
+    And I have 1 tags
 
   Scenario: Add duplicate tag
-    Given I am a new user with tags "Food, Weather"
+    Given I am a new user with tags "Agriculture, Transportation"
     And I visit the account page
-    When I add a new tag "Food"
-    Then I see an error message
+    When I select "Agriculture"
+    Then I see "Duplicate tag"
 
-  Scenario: Add multiple tag
+  Scenario: Add multiple tags
     Given I am a new user with tags "Food, Weather"
+    And there exists tags "Education, Rental"
     And I visit the account page
-    When I add a new tag "Animals"
-    And I add a new tag "Taxes"
+    When I select "Education"
+    And I select "Rental"
     Then I have 4 tags

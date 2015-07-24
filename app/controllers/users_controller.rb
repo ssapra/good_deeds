@@ -10,6 +10,7 @@ class UsersController < ApplicationController
 
     if @user.update_attributes(user_params)
       changed_fields = build_change_attr_array
+      changed_fields << 'tags' if user_params.include?('user_tags_attributes')
       if changed_fields.any?
         redirect_to @user, notice: "Updated #{changed_fields.join(', ')}"
       else
@@ -18,6 +19,11 @@ class UsersController < ApplicationController
     else
       render 'show'
     end
+  end
+
+  def destroy
+    UserTag.find_by_tag_id_and_user_id(params[:tag_id], current_user.id).destroy
+    @tag_id = params[:tag_id]
   end
 
   private
@@ -29,6 +35,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:id, :email, :zipcode, :political_party)
+    params.require(:user).permit(:id, :email, :zipcode, :political_party,
+                                 user_tags_attributes: [:tag_id, :user_id])
   end
 end
