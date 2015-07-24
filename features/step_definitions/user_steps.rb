@@ -20,3 +20,13 @@ end
 Then(/^I see "(.*?)"$/) do |message|
   expect(page).to have_content(message)
 end
+
+Given(/^I am a new user with political party "(.*?)"$/) do |party|
+  @user = create :user, password: 'password', political_party: party
+  fill_sign_in_form(@user.email, 'password')
+end
+
+When(/^I select political party "(.*?)"$/) do |party|
+  select(party, from: "user_political_party")
+  click_button('Submit')
+end

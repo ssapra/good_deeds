@@ -37,7 +37,7 @@ Feature: Managing account settings
     Given I am a new user with political party "Democratic Party"
     And I visit the account page
     When I select political party "Republican Party"
-    Then I see a political party confirmation message
+    Then I see "Updated political party"
 
   Scenario: Add interest tag
     Given I am a new user

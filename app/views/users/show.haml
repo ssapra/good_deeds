@@ -17,4 +17,8 @@
     =f.label :email
     =f.text_field :email
 
+  %p
+    =f.label :political_party
+    =f.select(:political_party, POLITICAL_PARTIES)
+
   =f.submit "Submit"

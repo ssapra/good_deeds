@@ -9,10 +9,8 @@ class User < ActiveRecord::Base
   validate :valid_us_zipcode, on: :update
 
   def valid_us_zipcode
-    begin
-      errors.add(:zipcode, "must be a valid US zipcode") unless zipcode.to_region
-    rescue ArgumentError
-      errors.add(:zipcode, "must be a valid US zipcode")
-    end
+    errors.add(:zipcode, "must be a valid US zipcode") unless zipcode.to_region
+  rescue ArgumentError
+    errors.add(:zipcode, "must be a valid US zipcode")
   end
 end
