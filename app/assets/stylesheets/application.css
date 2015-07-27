@@ -11,5 +11,52 @@
  * file per style scope.
  *
  *= require_tree .
+ *= require reset
+ *= require normalize
  *= require_self
  */
+
+ .layout-transparent {
+   background: url('capitol.jpg') center / cover;
+ }
+ .layout-transparent .mdl-layout__header,
+ .layout-transparent .mdl-layout__drawer-button {
+   /* This background is dark, so we set text to white. Use 87% black instead if
+      your background is light. */
+   color: white;
+ }
+
+ .demo-card-wide.mdl-card {
+     width: 512px;
+ }
+ .demo-card-wide > .mdl-card__title {
+   color: #fff;
+   height: 30px;
+ }
+ .demo-card-wide > .mdl-card__menu {
+   color: #fff;
+ }
+
+ .mdl-textfield {
+   width: 700px !important;
+   color: white !important;
+ }
+
+.mdl-textfield__label {
+  color: white !important;
+}
+
+.mdl-card {
+  width: 512px;
+  margin: 80px auto;  
+}
+
+.demo-card-wide > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+  background: url('washington.jpg') center / cover;
+}
+
+.demo-card-wide > .mdl-card__menu {
+  color: #fff;
+}

@@ -1,0 +1,27 @@
+%header.mdl-layout__header.mdl-layout__header--transparent
+  .mdl-layout__header-row
+    %span.mdl-layout-title Good Deed
+    .mdl-layout-spacer
+    %form{:action => "#"}
+      .mdl-textfield.mdl-js-textfield.textfield-demo
+        %input#sample1.mdl-textfield__input{:type => "text"}/
+        %label.mdl-textfield__label{:for => "sample1"} Search for bills, legislators, or ...
+    .mdl-layout-spacer
+
+    %nav.mdl-navigation
+      -if user_signed_in?
+        =link_to "My Account", @user, class: 'mdl-navigation__link'
+        =link_to "Logout", destroy_user_session_path, class: 'mdl-navigation__link', method: :delete
+      -else
+        =link_to "Log in", new_user_session_path, class: 'mdl-navigation__link'
+        =link_to "Sign up", new_user_registration_path, class: 'mdl-navigation__link'
+
+%main.mdl-layout__content
+  .mdl-card.mdl-shadow--2dp.demo-card-wide
+    .mdl-card__title
+      %h2.mdl-card__title-text Welcome
+    .mdl-card__supporting-text
+      Congress desperately needs some good news. This app searchs through data from Congress' API and helps you learn about the positive changes they are making.
+    .mdl-card__actions.mdl-card--border
+      %a.mdl-button.mdl-button--colored.mdl-js-button.mdl-js-ripple-effect
+        Find a good deed

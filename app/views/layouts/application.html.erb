@@ -4,23 +4,20 @@
   <title>GoodDeeds</title>
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.1/material.indigo-pink.min.css">
+  <script src="https://storage.googleapis.com/code.getmdl.io/1.0.1/material.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.1/material.red-blue.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <%= csrf_meta_tags %>
 </head>
 <body>
 
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
-
-<% if user_signed_in? %>
-  <li><%= link_to('Logout', destroy_user_session_path, method: :delete) %></li>
-<% else %>
-  <li>
-    <%= link_to('Login', new_user_session_path)  %>
-    <%= link_to('Sign up', new_user_registration_path)  %>
-  </li>
-<% end %>
-
-<%= yield %>
+<div class="layout-transparent mdl-layout mdl-js-layout">
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
+  <%= yield %>
+</div>
 
 </body>
 </html>
