@@ -16,7 +16,11 @@
 <div class="layout-transparent mdl-layout mdl-js-layout">
   <p class="notice"><%= notice %></p>
   <p class="alert"><%= alert %></p>
-  <%= yield %>
+  <%= render 'layouts/header' %>
+  <div class="main mdl-layout__content">
+    <%= yield %>
+  </div>
+
 </div>
 
 </body>

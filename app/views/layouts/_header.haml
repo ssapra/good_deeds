@@ -1,0 +1,18 @@
+%header.mdl-layout__header.mdl-layout__header--transparent
+  .mdl-layout__header-row
+    %span.mdl-layout-title
+      %a.mdl-navigation__link{href: "/"} Good Deed
+    .mdl-layout-spacer
+    =form_tag(legislators_path, method: :get, remote: true, id: 'search') do
+      .mdl-textfield.mdl-js-textfield
+        =label_tag :search, 'Search for bills, legislators, or ...', class: 'mdl-textfield__label'
+        =text_field_tag :search, params[:search], class: 'mdl-textfield__input'
+    .mdl-layout-spacer
+
+    %nav.mdl-navigation
+      -if user_signed_in?
+        =link_to "My Account", @user, class: 'mdl-navigation__link'
+        =link_to "Logout", destroy_user_session_path, class: 'mdl-navigation__link', method: :delete
+      -else
+        =link_to "Log in", new_user_session_path, class: 'mdl-navigation__link'
+        =link_to "Sign up", new_user_registration_path, class: 'mdl-navigation__link'
