@@ -5,9 +5,12 @@ Feature: Interacting with legislators data
 
   Background:
     Given the following legislators exist:
-      | firstname   | lastname    | party | title | state   |
-      | Bob         | Jones       | D     | Rep   | IL      |
-      | Alice       | Smith       | R     | Sen   | NY      |
+      | firstname   | lastname    | party | title | state   | district  |
+      | Bob         | Jones       | D     | Rep   | IL      | 7         |
+      | Alice       | Smith       | R     | Sen   | NY      | 12        |
+    And the following congressional districts exist:
+      | congressional_district_id | state | zipcode   |
+      | 7                         | IL    | 60606     | 
 
   @javascript
   Scenario: See all legislators
@@ -37,6 +40,12 @@ Feature: Interacting with legislators data
   Scenario: Search legislators by state
     Given I visit "/"
     When I search "Illinois"
+    Then I see 1 legislators
+
+  @javascript
+  Scenario: Search legislators by zipcode
+    Given I visit "/"
+    When I search "60606"
     Then I see 1 legislators
 
   @javascript

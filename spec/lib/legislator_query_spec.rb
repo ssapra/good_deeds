@@ -2,9 +2,12 @@ require 'rails_helper'
 
 describe LegislatorQuery do
   before do
-    @legislator_1 = create(:legislator, title: 'Sen', party: 'D', state: 'AZ')
-    @legislator_2 = create(:legislator, title: 'Rep', party: 'D', state: 'IL')
-    @legislator_3 = create(:legislator, title: 'Sen', party: 'R', state: 'OH')
+    @legislator_1 = create(:legislator, title: 'Sen', party: 'D', state: 'AZ', district: '8')
+    @legislator_2 = create(:legislator, title: 'Rep', party: 'D', state: 'IL', district: '9')
+    @legislator_3 = create(:legislator, title: 'Sen', party: 'R', state: 'IL', district: '1')
+    @il_zipcode = '60564'
+    create(:congressional_district, zipcode: @il_zipcode, state: 'IL', congressional_district_id: 1)
+    create(:congressional_district, zipcode: @il_zipcode, state: 'IL', congressional_district_id: 9)
   end
 
   describe '#search' do
@@ -36,6 +39,14 @@ describe LegislatorQuery do
       let(:legislator_query) { LegislatorQuery.new(Legislator.all, 'Senator') }
 
       it 'searches for legislators who are Senators' do
+        expect(legislator_query.search.count).to eq(2)
+      end
+    end
+
+    context 'by zipcode' do
+      let(:legislator_query) { LegislatorQuery.new(Legislator.all, @il_zipcode) }
+
+      it 'searches for legislators who server the zipcode 12345' do
         expect(legislator_query.search.count).to eq(2)
       end
     end

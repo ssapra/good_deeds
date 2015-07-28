@@ -10,7 +10,7 @@ class LegislatorQuery
   end
 
   def search
-    build_query(:names, :state, :title, :party)
+    build_query(:names, :state, :title, :party, :zipcode)
     relation.where(query, *params)
   end
 
@@ -26,27 +26,33 @@ class LegislatorQuery
   end
 
   def handle_state
-    state_param = default_param
-    state_param = "%#{STATES[search_term]}%" if STATES[search_term]
-    params.push(state_param)
-    query << ' OR state LIKE ?'
+    return unless STATES[search_term]
+    params.push(STATES[search_term])
+    query << ' OR state = ?'
   end
 
   def handle_title
-    title_param = default_param
-    if %w(Representative Senator Delegate Commissioner).include?(search_term)
-      title_param = search_term[0..2]
-    end
+    return unless %w(Representative Senator Delegate Commissioner).include?(search_term)
+    title_param = search_term[0..2]
     params.push(title_param)
-    query << ' OR title LIKE ?'
+    query << ' OR title = ?'
   end
 
   def handle_party
-    party_param = default_param
-    if %w(Republican Democratic Indepedent).include?(search_term)
-      party_param = search_term[0]
-    end
+    return unless %w(Republican Democratic Indepedent).include?(search_term)
+    party_param = search_term[0]
     params.push(party_param)
-    query << ' OR party LIKE ?'
+    query << ' OR party = ?'
+  end
+
+  def handle_zipcode
+    return unless search_term =~ /^\d{5}$/
+    state = search_term.to_region(state: true)
+    params.push(state)
+    district_ids = CongressionalDistrict.where(zipcode: search_term)
+                                        .map(&:congressional_district_id)
+                                        .map(&:to_s)
+    params.push(district_ids)
+    query << ' OR (state = ? AND district IN (?))'
   end
 end
