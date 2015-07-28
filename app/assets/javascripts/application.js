@@ -15,6 +15,7 @@
 //= require_tree .
 
 $(document).ready(function() {
+
     $(document).on('click', '#legislator_results tr', function() {
         var legislatorId = $(this).attr("data-legislator-id");
         if(legislatorId) {

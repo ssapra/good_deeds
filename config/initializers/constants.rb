@@ -1,2 +1,1 @@
-POLITICAL_PARTIES = ["Democratic Party", "Republican Party",
-                     "Libertarian Party", "Green Party", "Constitution Party"]
+POLITICAL_PARTIES = ['Democratic Party', 'Republican Party', 'Independent']

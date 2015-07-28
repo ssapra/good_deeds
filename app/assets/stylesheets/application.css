@@ -18,6 +18,7 @@
 
  .layout-transparent {
    background: url('capitol.jpg') center / cover;
+   background: url('night_building.png') center / cover;
  }
  .layout-transparent .mdl-layout__header,
  .layout-transparent .mdl-layout__drawer-button {
@@ -48,7 +49,9 @@
 
 .mdl-card {
   width: 512px;
-  margin: 80px auto;
+  /*margin: 80px auto;*/
+  margin-top: 10%;
+  margin-left: 5%;
 }
 
 .demo-card-wide > .mdl-card__title {
