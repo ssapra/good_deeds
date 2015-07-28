@@ -16,6 +16,10 @@
 
 $(document).ready(function() {
 
+    // $('#log_in .mdl-button').click(function(){
+    //   $('#log_in').submit();
+    // })
+
     $(document).on('click', '#legislator_results tr', function() {
         var legislatorId = $(this).attr("data-legislator-id");
         if(legislatorId) {
