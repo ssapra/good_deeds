@@ -15,15 +15,10 @@
 //= require_tree .
 
 $(document).ready(function() {
-
-    // $('#log_in .mdl-button').click(function(){
-    //   $('#log_in').submit();
-    // })
-
     $(document).on('click', '#legislator_results tr', function() {
-        var legislatorId = $(this).attr("data-legislator-id");
-        if(legislatorId) {
-            window.location = "/legislators/" + legislatorId;
+        var url = $(this).attr("data-url");
+        if(url) {
+            window.location = url;
         }
     });
 });

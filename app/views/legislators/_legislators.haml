@@ -7,7 +7,7 @@
       %th.mdl-data-table__cell--non-numeric Website
   %tbody
     -legislators.each do |legislator|
-      %tr{'data-legislator-id' => legislator.id}
+      %tr{'data-url' => "/legislators/#{legislator.id}"}
         %td.mdl-data-table__cell--non-numeric=legislator.full_title
         %td.mdl-data-table__cell--non-numeric=legislator.party
         %td.mdl-data-table__cell--non-numeric=legislator.state
