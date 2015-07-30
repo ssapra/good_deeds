@@ -7,36 +7,42 @@ Feature: Managing account settings
     Given I am a new user
     And I visit the account page
     When I set "user_zipcode" as "60606"
+    And I click "Save"
     Then I see "Updated zipcode"
 
   Scenario: Add invalid zipcode
     Given I am a new user
     And I visit the account page
     When I set "user_zipcode" as "99999"
+    And I click "Save"
     Then I see "Zipcode must be a valid US zipcode"
 
   Scenario: Update with new zipcode
     Given I am a user with zipcode "12345"
     And I visit the account page
     When I set "user_zipcode" as "60606"
+    And I click "Save"
     Then I see "Updated zipcode"
 
   Scenario: Update with new valid email
     Given I am a new user
     And I visit the account page
     When I set "user_email" as "mynewemail@gmail.com"
+    And I click "Save"
     Then I see "Updated email"
 
   Scenario: Update with new invalid email
     Given I am a new user
     And I visit the account page
     When I set "user_email" as "notvalidemail"
+    And I click "Save"
     Then I see "Email is invalid"
 
   Scenario: Update political party
     Given I am a new user with political party "Democratic Party"
     And I visit the account page
     When I select political party "Republican Party"
+    And I click "Save"
     Then I see "Updated political party"
 
   Scenario: Add interest tag
@@ -44,6 +50,7 @@ Feature: Managing account settings
     And there exists tags "Hunting"
     And I visit the account page
     When I select "Hunting"
+    And I click "Save"
     Then I see "Updated tags"
 
   @javascript
@@ -58,6 +65,7 @@ Feature: Managing account settings
     Given I am a new user with tags "Agriculture, Transportation"
     And I visit the account page
     When I select "Agriculture"
+    And I click "Save"
     Then I see "Duplicate tag"
 
   Scenario: Add multiple tags
@@ -65,5 +73,7 @@ Feature: Managing account settings
     And there exists tags "Education, Rental"
     And I visit the account page
     When I select "Education"
+    And I click "Save"
     And I select "Rental"
+    And I click "Save"
     Then I have 4 tags

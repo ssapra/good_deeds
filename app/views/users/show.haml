@@ -1,37 +1,50 @@
-%h1 My Account
+.row
+  .col.s6.offset-s3
+    %h1 My Account
+    =form_for(@user, class: "col s12") do |f|
+      .row
+        -if @user.errors.any?
+          #error_explanation
+            %h2= pluralize(@user.errors.count, "error") + " prohibited this contact from being saved"
+            %ul
+              -@user.errors.full_messages.each do |msg|
+                %li= msg
 
-=form_for(@user) do |f|
+      =f.hidden_field :id, value: @user.id
 
-  -if @user.errors.any?
-    #error_explanation
-      %h2= pluralize(@user.errors.count, "error") + " prohibited this contact from being saved"
-      %ul
-        -@user.errors.full_messages.each do |msg|
-          %li= msg
+      .row
+        .input-field.col.s12
+          =f.label :zipcode, "Zipcode", class: 'mdl-textfield__label'
+          =f.text_field :zipcode, class: 'mdl-textfield__input'
 
-  =f.hidden_field :id, value: @user.id
-  %p
-    =f.label :zipcode
-    =f.text_field :zipcode
-  %p
-    =f.label :email
-    =f.text_field :email
+      .row
+        .input-field.col.s12
+          =f.label :email, nil, class: 'mdl-textfield__label'
+          =f.text_field :email, class: 'mdl-textfield__input'
 
-  %p
-    =f.label :political_party
-    =f.select(:political_party, POLITICAL_PARTIES)
+      .row
+        .col.s12
+          =f.label :political_party
+          =f.select(:political_party, POLITICAL_PARTIES)
 
-  Tags
-  %ul
-  -@user.tags.each do |tag|
-    %li{'data-tag-id' => tag.id}
-      =tag.name
-      =link_to "x", user_path(tag_id: tag.id), remote: true, method: :delete
+      .row
+        .col.s12
+          %h3 Tags
+          %ul.collection.tags
+            -@user.tags.each do |tag|
+              %li.collection-item{'data-tag-id' => tag.id}
+                =tag.name
+                =link_to "x", user_path(tag_id: tag.id), remote: true, method: :delete
 
-  =f.fields_for :user_tags, @user.user_tags.build do |tag_form|
-    %p
-      =tag_form.label :tag_name
-      =tag_form.collection_select(:tag_id, Tag.all, :id, :name, include_blank: true)
-      =tag_form.hidden_field :user_id, value: @user.id
 
-  =f.submit "Submit"
+      .row
+        =f.fields_for :user_tags, @user.user_tags.build do |tag_form|
+          .input-field.col.s12
+            =tag_form.label :tag_name, "Add another tag", class: 'mdl-textfield__label'
+            =text_field_tag nil, nil, id: 'tag_name', class: 'mdl-textfield__input', data: { autocomplete_source: Tag.order(:name).map { |t| { label: t.name, value: t.id } } }
+            =tag_form.hidden_field :tag_id
+
+            =tag_form.hidden_field :user_id, value: @user.id
+
+      .row
+        %button.btn.waves-effect.waves-light{:name => "action", :type => "submit"} Save

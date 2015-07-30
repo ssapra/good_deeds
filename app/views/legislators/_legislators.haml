@@ -1,16 +1,21 @@
-%table.mdl-data-table.mdl-js-data-table#legislator_results
-  %thead
-    %tr
-      %th.mdl-data-table__cell--non-numeric Name
-      %th.mdl-data-table__cell--non-numeric Party
-      %th.mdl-data-table__cell--non-numeric State
-      %th.mdl-data-table__cell--non-numeric Website
-  %tbody
-    -legislators.each do |legislator|
-      %tr{'data-url' => "/legislators/#{legislator.id}"}
-        %td.mdl-data-table__cell--non-numeric=legislator.full_title
-        %td.mdl-data-table__cell--non-numeric=legislator.party
-        %td.mdl-data-table__cell--non-numeric=legislator.state
-        %td.mdl-data-table__cell--non-numeric=link_to legislator.website, legislator.website, target: '_'
+.row
+  .col.s10.offset-s1
+    %h4="#{@num_results} results found for #{params[:search]}"
+    %table.bordered.hoverable.responsive-table#legislator_results
+      %thead
+        %tr
+          %th Name
+          %th Party
+          %th State
+          %th Currently in-office
+          %th Website
+      %tbody
+        -legislators.each do |legislator|
+          %tr{'data-url' => "/legislators/#{legislator.id}"}
+            %td=legislator.full_title
+            %td=legislator.party
+            %td=legislator.state
+            %td= legislator.in_office ? 'Yes' : 'No'
+            %td=link_to legislator.website, legislator.website, target: '_'
 
-= paginate @legislators
+    = paginate @legislators

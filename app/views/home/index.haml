@@ -1,8 +1,13 @@
-.mdl-card.mdl-shadow--2dp.demo-card-wide
-  .mdl-card__title
-    %h2.mdl-card__title-text Welcome
-  .mdl-card__supporting-text
-    Congress desperately needs some good news. This app searchs through data from Congress' API and helps you learn about the positive changes they are making.
-  .mdl-card__actions.mdl-card--border
-    %a.mdl-button.mdl-button--colored.mdl-js-button.mdl-js-ripple-effect
-      Find a good deed
+.row
+.row
+.row
+  .col.s10.offset-s1
+    .card.large
+      .card-image.waves-effect.waves-block.waves-light
+        =image_tag "washington.jpg", class: 'activator'
+      .card-content
+        %span.card-title.activator.grey-text.text-darken-4
+          Welcome
+        %p
+          Congress desperately needs some good news. This app searchs through data from Congress' API and helps you learn about the positive changes they are making.
+        %a.waves-effect.waves-light.btn.blue Find a good deed

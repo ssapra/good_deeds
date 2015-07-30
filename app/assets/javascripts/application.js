@@ -11,14 +11,53 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery-ui
 //= require jquery_ujs
+//= require materialize-sprockets
 //= require_tree .
 
 $(document).ready(function() {
+
+    $('#user_political_party').material_select();
+
     $(document).on('click', '#legislator_results tr', function() {
         var url = $(this).attr("data-url");
         if(url) {
             window.location = url;
         }
     });
+
+    $('#search').on('click', function(){
+        $('.main-body').hide();
+        $('.main').removeClass('layout-transparent');
+        $('.mdl-layout').removeClass('layout-transparent');
+        $('header').removeClass('mdl-layout__header--transparent');
+    });
+
+    $(document).keyup(function(e) {
+        if (e.keyCode == 27){
+            $('.main-body').show();
+            $('.main').addClass('layout-transparent');
+            $('.mdl-layout').addClass('layout-transparent');
+            $('header').addClass('mdl-layout__header--transparent');
+        }
+    });
+
+
+    $('#tag_name').autocomplete({
+        source: $('#tag_name').data('autocomplete-source'),
+        focus: function( event, ui ) {
+            $( "#tag_name" ).val( ui.item.label );
+            return false;
+        },
+        select: function(event, ui){
+            $('#tag_name').val(ui.item.label);
+            $('#user_user_tags_attributes_0_tag_id').val(ui.item.value);
+            return false;
+        }
+    }).autocomplete( "instance" )._renderItem = function( ul, item ) {
+      return $( "<li>" )
+        .append(item.label)
+        .appendTo( ul );
+    };
 });
