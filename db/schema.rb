@@ -11,10 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150729191232) do
+ActiveRecord::Schema.define(version: 20150730200914) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bill_tags", force: :cascade do |t|
+    t.integer  "bill_id"
+    t.integer  "tag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "bills", force: :cascade do |t|
     t.string   "bill_id"
@@ -58,7 +65,6 @@ ActiveRecord::Schema.define(version: 20150729191232) do
     t.string   "party"
     t.string   "state"
     t.string   "district"
-    t.string   "in_office"
     t.string   "gender"
     t.string   "phone"
     t.string   "fax"
@@ -80,6 +86,7 @@ ActiveRecord::Schema.define(version: 20150729191232) do
     t.string   "oc_email"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.integer  "in_office"
   end
 
   create_table "tags", force: :cascade do |t|

@@ -7,6 +7,6 @@ class Legislator < ActiveRecord::Base
   end
 
   def name
-    [firstname, middlename, lastname].join(' ')
+    [firstname, middlename, lastname].compact.join(' ')
   end
 end
