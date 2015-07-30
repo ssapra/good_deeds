@@ -21,20 +21,25 @@ class SunlightlabsApi
 
       results.each do |row|
         values = direct_attributes.map { |attribute| row.fetch(attribute) }
-        bill = Hash[direct_attributes.zip(values)]
-        sponsor = Legislator.where(firstname: sponsor['first_name'], lastname: sponsor['last_name']).first
-        bill['legislator_id'] = sponsor.id if sponsor
-        bill['url'] = row['urls']['govtrack'] if row['urls']
+        bill_attributes = Hash[direct_attributes.zip(values)]
+        sponsor = row['sponsor']
+        legislator = Legislator.where(firstname: sponsor['first_name'], lastname: sponsor['last_name']).first
+        bill_attributes['legislator_id'] = legislator.id if legislator
+        bill_attributes['url'] = row['urls']['govtrack'] if row['urls']
         last_action = row['last_action']
         if last_action
-          bill['last_action_at'] = Date.parse(last_action['acted_at'])
-          bill['last_action_type'] = last_action['type']
-          bill['last_action_text'] = last_action['text']
+          bill_attributes['last_action_at'] = Date.parse(last_action['acted_at'])
+          bill_attributes['last_action_type'] = last_action['type']
+          bill_attributes['last_action_text'] = last_action['text']
         end
-        bill['introduced_on'] = Date.parse(bill['introduced_on'])
-        bill['last_version_pdf'] = row['last_version']['urls']['pdf'] if row['last_version'] && row['last_version']['urls']
-        keywords += row['keywords']
-        Bill.create(bill)
+        bill_attributes['introduced_on'] = Date.parse(bill_attributes['introduced_on'])
+        bill_attributes['last_version_pdf'] = row['last_version']['urls']['pdf'] if row['last_version'] && row['last_version']['urls']
+
+        bill = Bill.create(bill_attributes)
+        row['keywords'].each do |keyword|
+          tag = Tag.where(name: keyword).first_or_create
+          BillTag.create(tag_id: tag.id, bill_id: bill.id)
+        end
       end
       break if page_count < per_page
       page += 1
