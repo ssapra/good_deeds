@@ -1,5 +1,5 @@
 .navbar-fixed
-  %nav.red
+  %nav.blue
     .nav-wrapper
       .row
         .col.s1
@@ -7,9 +7,9 @@
         .col.s9
           =form_tag(legislators_path, method: :get, remote: true, id: 'search') do
             .input-field
-              %label{:for => "search"}
+              %label.search{:for => "search"}
                 %i.material-icons search
-              =text_field_tag :search, params[:search], required: '', type: 'search'
+              =text_field_tag :search, params[:search], placeholder: 'Search', required: '', type: 'search', autocomplete: 'off'
         .col.s2
           %ul.right.hide-on-med-and-down
             -if user_signed_in?

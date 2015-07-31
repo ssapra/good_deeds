@@ -17,6 +17,7 @@ class UsersController < ApplicationController
         redirect_to @user
       end
     else
+      flash[:alert] = @user.errors.full_messages.join(", ")
       render 'show'
     end
   end
