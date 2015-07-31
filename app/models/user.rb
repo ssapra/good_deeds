@@ -17,4 +17,9 @@ class User < ActiveRecord::Base
   rescue ArgumentError
     errors.add(:zipcode, "must be a valid US zipcode")
   end
+
+  def legislators_by_zipcode
+    lq = LegislatorQuery.new(Legislator.all, zipcode)
+    lq.search
+  end
 end

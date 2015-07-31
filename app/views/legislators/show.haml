@@ -1,1 +1,7 @@
 =@legislator.full_title
+
+-@legislator.bills.each do |bill|
+  %p="Sponsored #{bill.official_title}"
+
+
+="Call: #{@legislator.phone}"

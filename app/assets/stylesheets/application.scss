@@ -12,6 +12,10 @@ body {
   z-index: 999;
 }
 
+.actions tr {
+  padding: 5px 5px;
+}
+
 .tags i {
   font-size: 1rem;
 }
@@ -27,6 +31,8 @@ body {
   height: 50px;
   line-height: 50px;
   display: table-cell;
+  background-color: white;
+  border-radius: 2px;
 }
 
 .search .material-icons{

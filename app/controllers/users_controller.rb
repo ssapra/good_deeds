@@ -10,7 +10,7 @@ class UsersController < ApplicationController
 
     if @user.update_attributes(user_params)
       changed_fields = build_change_attr_array
-      changed_fields << 'tags' if user_params.include?('user_tags_attributes')
+      changed_fields << 'tags' unless user_params['user_tags_attributes']['0']['tag_id'].empty?
       if changed_fields.any?
         redirect_to @user, notice: "Updated #{changed_fields.join(', ')}"
       else

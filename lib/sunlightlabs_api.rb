@@ -11,7 +11,7 @@ class SunlightlabsApi
     per_page = 50
     page = 1
     direct_attributes = %w(bill_id bill_type chamber congress cosponsors_count introduced_on official_title popular_title short_title summary_short)
-    fields = "bill_id,bill_type,chamber,congress,cosponsors_count,introduced_on,keywords,last_action,last_version.urls.pdf,official_title,popular_title,summary_short,short_title,sponsor.first_name,sponsor.last_name,sponsor.title,urls.govtrack"
+    fields = "actions,bill_id,bill_type,chamber,congress,cosponsors_count,introduced_on,keywords,last_action,last_version.urls.pdf,official_title,popular_title,summary_short,short_title,sponsor.first_name,sponsor.last_name,sponsor.title,urls.govtrack"
 
     loop do
       url = "#{DOMAIN}/bills?fields=#{fields}&history.active=true&order=last_action_at&introduced_on__gt=%222015-01-01%22&per_page=#{PER_PAGE}&page=#{page}&apikey=#{ENV['SUNLIGHTLABS_APIKEY']}"
@@ -35,7 +35,14 @@ class SunlightlabsApi
         bill_attributes['introduced_on'] = Date.parse(bill_attributes['introduced_on'])
         bill_attributes['last_version_pdf'] = row['last_version']['urls']['pdf'] if row['last_version'] && row['last_version']['urls']
 
-        bill = Bill.create(bill_attributes)
+        actions = row['actions']
+
+        bill = Bill.where(bill_attributes).first_or_create
+
+        actions.each do |action|
+          BillAction.create(text: action['text'], date: Date.parse(action['acted_at']), bill_id: bill.id)
+        end
+
         row['keywords'].each do |keyword|
           tag = Tag.where(name: keyword).first_or_create
           BillTag.create(tag_id: tag.id, bill_id: bill.id)

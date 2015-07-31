@@ -1,0 +1,28 @@
+.row
+  .col.s10.offset-s1
+    .card-panel
+      %h5
+        ="#{@bill.title}"
+        =": #{@bill.short_title}" if @bill.short_title
+        =": #{@bill.official_title}" if @bill.short_title.nil?
+      %h5="Sponsored by: #{@bill.legislator.all_info}"
+      %p="Summary: #{@bill.summary_short}"
+
+.row
+  .col.s7.offset-s1
+    .card-panel
+      %h4 Actions
+      %table.actions
+        %tbody
+          -@bill.bill_actions.order(date: :desc).take(10).each do |action|
+            %tr
+              %td="#{action.date.strftime('%B %-d, %Y')}: #{action.text}"
+          %td="#{@bill.introduced_on.strftime('%B %-d, %Y')}: Introduced to the #{@bill.chamber}"
+
+  .col.s3
+    .card-panel
+      %h4 Other
+      %p=link_to "Read more at GovTrack", @bill.url, target: '_'
+      %p=link_to "Call #{@bill.legislator.name}", '#'
+      %p=link_to "Bookmark", '#'
+      %p=link_to "Find another good deed", '/good_deed'
