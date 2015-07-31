@@ -8,7 +8,6 @@ class SunlightlabsApi
   PER_PAGE = 50
 
   def self.get_bills
-    per_page = 50
     page = 1
     direct_attributes = %w(bill_id bill_type chamber congress cosponsors_count introduced_on official_title popular_title short_title summary_short)
     fields = "actions,bill_id,bill_type,chamber,congress,cosponsors_count,introduced_on,keywords,last_action,last_version.urls.pdf,official_title,popular_title,summary_short,short_title,sponsor.first_name,sponsor.last_name,sponsor.title,urls.govtrack"
@@ -48,7 +47,7 @@ class SunlightlabsApi
           BillTag.create(tag_id: tag.id, bill_id: bill.id)
         end
       end
-      break if page_count < per_page
+      break if page_count < PER_PAGE
       page += 1
     end
   end
@@ -64,7 +63,7 @@ class SunlightlabsApi
       results.each do |row|
         keywords += row['keywords']
       end
-      break if page_count < per_page
+      break if page_count < PER_PAGE
       page += 1
     end
     keywords.uniq!
