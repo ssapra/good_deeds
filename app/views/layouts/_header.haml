@@ -7,17 +7,17 @@
         .col.s8
           =form_tag(search_path, method: :get, remote: true, id: 'search') do
             .input-field
-              %label.search{:for => "search"}
+              %label.search{:for => "query"}
                 %i.material-icons search
               - if @bill
                 -placeholder_text = @bill.bill_id
               -elsif @legislator
                 -placeholder_text = @legislator.name
               -elsif params[:search]
-                -placeholder_text = params[:search]
+                -placeholder_text = params[:query]
               -else
                 -placeholder_text = 'Search bills (bill id, keywords) or legislators (name, state, zipcode, party, title)'
-              =text_field_tag :search, params[:search], placeholder: placeholder_text, required: '', type: 'search', autocomplete: 'off'
+              =text_field_tag :query, params[:query], placeholder: placeholder_text, required: '', type: 'search', autocomplete: 'off'
         .col.s3
           %ul.right.hide-on-med-and-down
             -if user_signed_in?
