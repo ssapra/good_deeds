@@ -22,11 +22,28 @@
   .col.s3
     .card-panel
       %h4 Other
-      %p=link_to "Read more at GovTrack", @bill.url, target: '_'
-      %p=link_to "Call #{@bill.legislator.name}", '#'
-      -if current_user
-        -if @bill.bookmarked_by_user?(current_user.id)
-          %p Already bookmarked!
-        -else
-          %p=link_to "Bookmark", bookmarks_path(bill_id: @bill.id), method: :post
-      %p=link_to "Find another good deed", '/good_deed'
+      .row
+        .col.s5
+          %p=link_to "<i class='material-icons'>note_add</i>".html_safe << "Read more at GovTrack", @bill.url, target: '_'
+        .col.s5
+          %p=link_to "<i class='material-icons'>call</i>".html_safe << "Call #{@bill.legislator.name}", '#'
+      .row
+        .col.s5
+          -if current_user
+            -if @bill.bookmarked_by_user?(current_user.id)
+              %p
+                %i.material-icons bookmark
+                Bookmarked!
+            -else
+              %p=link_to "<i class='material-icons'>bookmark_border</i>".html_safe << 'Bookmark', bookmarks_path(bill_id: @bill.id), method: :post
+        .col.s5
+          %p=link_to "<i class='material-icons'>refresh</i>".html_safe << "Find another good deed", '/good_deed'
+
+      .row
+        .col.s12
+          %h6 Share
+          .fb-share-button{"data-href" => "#{request.base_url}/bills/bill_id", "data-layout" => "button"}
+          %a{href: "https://twitter.com/share", class: "twitter-share-button", 'data-url' => "#{request.base_url}/bills/#{@bill.bill_id}", 'data-size' => "large", 'data-count' => "none", 'data-hashtags' => "congress"} Tweet
+
+:javascript
+  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
