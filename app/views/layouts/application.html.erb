@@ -12,24 +12,23 @@
 
 
 <%= render 'layouts/header' %>
+
 <div class="main">
   <% if notice %>
     <div class="row">
-        <div class="col s6 offset-s3">
-          <div class="card-panel green notice">
-            <i class="material-icons">done</i>
-            <span class="white-text"><%= notice %></span>
-          </div>
+      <div class="col s6 offset-s3">
+        <div class="card-panel green notice">
+          <i class="material-icons">done</i>
+          <span class="white-text"><%= notice %></span>
         </div>
       </div>
     </div>
   <% elsif alert %>
     <div class="row">
-        <div class="col s6 offset-s3">
-          <div class="card-panel red alert">
-            <i class="material-icons">error</i>
-            <span class="white-text"><%= alert %></span>
-          </div>
+      <div class="col s6 offset-s3">
+        <div class="card-panel red alert">
+          <i class="material-icons">error</i>
+          <span class="white-text"><%= alert %></span>
         </div>
       </div>
     </div>

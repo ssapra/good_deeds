@@ -15,7 +15,7 @@
 
         .col.s12
           =f.label :political_party
-          =f.select(:political_party, POLITICAL_PARTIES)
+          =f.select(:political_party, ["Democrat", "Republican", "Independent"], include_blank: true)
 
         .col.s12
           %h3 Tags

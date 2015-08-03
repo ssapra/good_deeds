@@ -1,1 +1,2 @@
-$('.main').html("<%= escape_javascript(render 'legislators', legislators: @legislators) %>")
+$('.main').html("<%= escape_javascript(render 'legislators') %>")
+$('input#search').attr('placeholder', "<%= escape_javascript(params[:search]) %>")

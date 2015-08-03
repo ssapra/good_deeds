@@ -13,6 +13,8 @@
                 -placeholder_text = @bill.bill_id
               -elsif @legislator
                 -placeholder_text = @legislator.name
+              -elsif params[:search]
+                -placeholder_text = params[:search]
               -else
                 -placeholder_text = 'Search bills (bill id, keywords) or legislators (name, state, zipcode, party, title)'
               =text_field_tag :search, params[:search], placeholder: placeholder_text, required: '', type: 'search', autocomplete: 'off'

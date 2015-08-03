@@ -39,9 +39,9 @@ Feature: Managing account settings
     Then I see "Email is invalid"
 
   Scenario: Update political party
-    Given I am a new user with political party "Democratic Party"
+    Given I am a new user with political party "Democratic"
     And I visit the account page
-    When I select political party "Republican Party"
+    When I select political party "Republican"
     And I click "Save"
     Then I see "Updated political party"
 
@@ -58,8 +58,7 @@ Feature: Managing account settings
     Given I am a new user with tags "Agriculture, Transportation"
     And I visit the account page
     And I remove "Agriculture"
-    Then I see "Updated tags"
-    And I have 1 tags
+    Then I have 1 tags
 
   Scenario: Add duplicate tag
     Given I am a new user with tags "Agriculture, Transportation"

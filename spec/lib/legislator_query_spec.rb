@@ -11,67 +11,103 @@ describe LegislatorQuery do
   end
 
   describe '#search' do
-    context 'by the full first name' do
-      let(:legislator_query) { LegislatorQuery.new(Legislator.all, @legislator_1.firstname) }
+    context 'by single parameter' do
+      context 'full first name' do
+        let(:legislator_query) { LegislatorQuery.new(Legislator.all, @legislator_1.firstname) }
 
-      it 'searches for legislators who match the name' do
-        expect(legislator_query.search.count).to eq(1)
+        it 'searches for legislators who match the name' do
+          expect(legislator_query.search.count).to eq(1)
+        end
+      end
+
+      context 'lowercase last name' do
+        let(:legislator_query) { LegislatorQuery.new(Legislator.all, @legislator_2.lastname.downcase) }
+
+        it 'searches for legislators who match the name' do
+          expect(legislator_query.search.count).to eq(1)
+        end
+      end
+
+      context 'party' do
+        let(:legislator_query) { LegislatorQuery.new(Legislator.all, 'Democratic') }
+
+        it 'searches for legislators who are Democratic' do
+          expect(legislator_query.search.count).to eq(2)
+        end
+      end
+
+      context 'full state name' do
+        let(:legislator_query) { LegislatorQuery.new(Legislator.all, 'new York') }
+
+        it 'searches for legislators who represent new york' do
+          expect(legislator_query.search.count).to eq(1)
+        end
+      end
+
+      context 'state abbreviation' do
+        let(:legislator_query) { LegislatorQuery.new(Legislator.all, 'IL') }
+
+        it 'searches for legislators who represent Arizona' do
+          expect(legislator_query.search.count).to eq(2)
+        end
+      end
+
+      context 'title' do
+        let(:legislator_query) { LegislatorQuery.new(Legislator.all, 'Senator') }
+
+        it 'searches for legislators who are Senators' do
+          expect(legislator_query.search.count).to eq(2)
+        end
+      end
+
+      context 'abbreviated title' do
+        let(:legislator_query) { LegislatorQuery.new(Legislator.all, 'del') }
+
+        it 'searches for legislators who are Delegates' do
+          expect(legislator_query.search.count).to eq(1)
+        end
+      end
+
+      context 'zipcode' do
+        let(:legislator_query) { LegislatorQuery.new(Legislator.all, @il_zipcode) }
+
+        it "searches for legislators who serve the zipcode #{@il_zipcode}" do
+          expect(legislator_query.search.count).to eq(2)
+        end
       end
     end
 
-    context 'by lowercase last name' do
-      let(:legislator_query) { LegislatorQuery.new(Legislator.all, @legislator_2.lastname.downcase) }
+    context 'by multiple parameters' do
+      context 'zipcode and state' do
+        let(:legislator_query) { LegislatorQuery.new(Legislator.all, "#{@il_zipcode} democratic") }
 
-      it 'searches for legislators who match the name' do
-        expect(legislator_query.search.count).to eq(1)
+        it "searches for Democratics who serve in zipcode #{@il_zipcode}" do
+          expect(legislator_query.search.count).to eq(1)
+        end
       end
-    end
 
-    context 'by party' do
-      let(:legislator_query) { LegislatorQuery.new(Legislator.all, 'Democratic') }
+      context 'first and last name' do
+        let(:legislator_query) { LegislatorQuery.new(Legislator.all, "#{@legislator_1.firstname} #{@legislator_1.lastname}") }
 
-      it 'searches for legislators who are Democratic' do
-        expect(legislator_query.search.count).to eq(2)
+        it "searches for legislators by full name" do
+          expect(legislator_query.search.count).to eq(1)
+        end
       end
-    end
 
-    context 'by full state name' do
-      let(:legislator_query) { LegislatorQuery.new(Legislator.all, 'new York') }
+      context 'state and title' do
+        let(:legislator_query) { LegislatorQuery.new(Legislator.all, 'new York senator') }
 
-      it 'searches for legislators who represent Arizona' do
-        expect(legislator_query.search.count).to eq(1)
+        it "searches for legislators who are Senators in New York" do
+          expect(legislator_query.search.count).to eq(1)
+        end
       end
-    end
 
-    context 'by state abbreviation' do
-      let(:legislator_query) { LegislatorQuery.new(Legislator.all, 'IL') }
+      context 'state, name, title, and party' do
+        let(:legislator_query) { LegislatorQuery.new(Legislator.all, "illinois #{@legislator_2.firstname} #{@legislator_2.lastname} delegate democratic") }
 
-      it 'searches for legislators who represent Arizona' do
-        expect(legislator_query.search.count).to eq(2)
-      end
-    end
-
-    context 'by title' do
-      let(:legislator_query) { LegislatorQuery.new(Legislator.all, 'Senator') }
-
-      it 'searches for legislators who are Senators' do
-        expect(legislator_query.search.count).to eq(2)
-      end
-    end
-
-    context 'by abbreviated title' do
-      let(:legislator_query) { LegislatorQuery.new(Legislator.all, 'del') }
-
-      it 'searches for legislators who are Delegates' do
-        expect(legislator_query.search.count).to eq(1)
-      end
-    end
-
-    context 'by zipcode' do
-      let(:legislator_query) { LegislatorQuery.new(Legislator.all, @il_zipcode) }
-
-      it 'searches for legislators who server the zipcode 12345' do
-        expect(legislator_query.search.count).to eq(2)
+        it "searches for legislators who are Democratic Delegators in Illinois by name" do
+          expect(legislator_query.search.count).to eq(1)
+        end
       end
     end
   end
