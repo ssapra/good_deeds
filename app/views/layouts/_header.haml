@@ -5,7 +5,7 @@
         .col.s1
           %a{:href => "/"} Good Deed
         .col.s8
-          =form_tag(legislators_path, method: :get, remote: true, id: 'search') do
+          =form_tag(search_path, method: :get, remote: true, id: 'search') do
             .input-field
               %label.search{:for => "search"}
                 %i.material-icons search

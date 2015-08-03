@@ -58,6 +58,6 @@ Then(/^I see "(.*?)"$/) do |message|
 end
 
 Then(/^I have (\d+) tags$/) do |num|
-  page.should have_css('ul.tags')
+  expect(page).to have_css('ul.tags')
   expect(@user.tags.count).to eq(num.to_i)
 end

@@ -11,9 +11,9 @@ Feature: Managing bookmarks
   Scenario: Add bookmark
     Given I am a new user
     And I visit a bill
-    When I click "Bookmark"
+    When I click "Add to bookmarks"
     Then I see "Bookmarked!"
-    And I see "Already bookmarked"
+    And I see "Bookmarked"
 
   Scenario: No option to bookmark
     Given I visit a bill
@@ -23,6 +23,13 @@ Feature: Managing bookmarks
     Given I am new user with 2 bookmarks
     And I visit "/bookmarks"
     Then I see 2 bills
+
+  @javascript
+  Scenario: Clicking on a bookmark
+    Given I am new user with 2 bookmarks
+    And I visit "/bookmarks"
+    When I click on the first one
+    Then I see the bill page
 
   Scenario: Removing a bookmark
     Given I am new user with 2 bookmarks

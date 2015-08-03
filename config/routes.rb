@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   root to: 'home#index'
 
   resources :users, only: [:show, :update, :destroy]
-  resources :legislators, only: [:index, :show]
+  resources :legislators, only: [:show]
+
+  get '/search' => 'search#index', as: :search
   get '/good_deed' => 'bills#random_good_deed'
 
   resources :bills, only: :show, param: :bill_id

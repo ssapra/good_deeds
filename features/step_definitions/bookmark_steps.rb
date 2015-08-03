@@ -16,15 +16,28 @@ When(/^I remove the first bookmark$/) do
   find(".remove a", match: :first).click
 end
 
+When(/^I click on the first one$/) do
+  find("tbody tr", match: :first).click
+end
+
 Then(/^I have no bills$/) do
   expect(page).to have_content('No bookmarks yet! Check out some')
 end
 
 Then(/^I can not bookmark$/) do
-  expect(page).to_not have_content('Bookmark')
+  expect(page).to_not have_content('Add to bookmarks')
 end
 
 Then(/^I see (\d+) bills$/) do |num|
   expect(page).to have_css('#results')
-  expect(all('tr').count).to eq(num.to_i)
+  expect(all('tbody tr').count).to eq(num.to_i)
+end
+
+Then(/^I see the bill page for "(.*?)"$/) do |title|
+  bill = Bill.find_by_short_title(title)
+  expect(page).to have_content(bill.title)
+end
+
+Then(/^I see the bill page$/) do
+  expect(page).to have_content("Sponsored by")
 end

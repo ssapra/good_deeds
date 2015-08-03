@@ -35,7 +35,7 @@
                 %i.material-icons bookmark
                 Bookmarked!
             -else
-              %p=link_to "<i class='material-icons'>bookmark_border</i>".html_safe << 'Bookmark', bookmarks_path(bill_id: @bill.id), method: :post
+              %p=link_to "<i class='material-icons'>bookmark_border</i>".html_safe << 'Add to bookmarks', bookmarks_path(bill_id: @bill.id), method: :post
         .col.s5
           %p=link_to "<i class='material-icons'>refresh</i>".html_safe << "Find another good deed", '/good_deed'
 

@@ -17,6 +17,8 @@ gem 'area'
 
 gem 'materialize-sass'
 
+gem 'pg_search'
+
 gem 'kaminari'
 
 gem 'sass-rails', '~> 5.0'

@@ -1,4 +1,7 @@
 class Bill < ActiveRecord::Base
+  include PgSearch
+  multisearchable :against => [:official_title, :short_title, :summary_short]
+
   validates :bill_id, uniqueness: true
   belongs_to :legislator
 

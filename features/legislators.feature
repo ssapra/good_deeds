@@ -10,13 +10,7 @@ Feature: Interacting with legislators data
       | Alice       | Smith       | R     | Sen   | NY      | 12        |
     And the following congressional districts exist:
       | congressional_district_id | state | zipcode   |
-      | 7                         | IL    | 60606     | 
-
-  @javascript
-  Scenario: See all legislators
-    Given I visit "/"
-    When I search "legislators"
-    Then I see 2 legislators
+      | 7                         | IL    | 60606     |
 
   @javascript
   Scenario: Search legislators by name
