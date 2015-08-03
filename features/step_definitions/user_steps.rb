@@ -45,7 +45,8 @@ When(/^I select "(.*?)"$/) do |tag_name|
 end
 
 When(/^I click "(.*?)"$/) do |text|
-  click_button(text)
+  expect(page).to have_content(text)
+  click_on(text)
 end
 
 When(/^I remove "(.*?)"$/) do |tag_name|

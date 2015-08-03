@@ -12,6 +12,6 @@ class BillsController < ApplicationController
   end
 
   def show
-    @bill = Bill.where(bill_id: params[:bill_id]).first
+    @bill = Bill.find_by_bill_id(params[:bill_id])
   end
 end

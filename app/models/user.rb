@@ -8,6 +8,10 @@ class User < ActiveRecord::Base
 
   has_many :user_tags
   has_many :tags, through: :user_tags
+
+  has_many :user_bills
+  has_many :bills, through: :user_bills
+  
   accepts_nested_attributes_for :user_tags, :reject_if => lambda { |a| a[:tag_id].blank? }, allow_destroy: true
 
   validate :valid_us_zipcode, on: :update

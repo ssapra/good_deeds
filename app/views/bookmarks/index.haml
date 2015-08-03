@@ -1,0 +1,20 @@
+.row
+  .col.s10.offset-s1
+    %h4 Bookmarks
+    -if @bills.empty?
+      %h4
+        No bookmarks yet! Check out some
+        =link_to "bills", '/good_deed'
+    -else
+      %table.bordered.hoverable.responsive-table#results
+        %tbody
+          -@bills.each do |bill|
+            %tr{'data-url' => "/bills/#{bill.bill_id}"}
+              %td=bill.title
+              %td=bill.legislator.full_title
+              %td=bill.introduced_on.strftime("%B %d, %Y")
+              %td=bill.last_action_at.strftime("%B %d, %Y")
+              %td=link_to bill.url, bill.url, target: '_'
+              %td.remove=link_to '<i class="material-icons">close</i>'.html_safe, bookmarks_path(bill_id: bill.id), method: :delete
+
+      = paginate @bills

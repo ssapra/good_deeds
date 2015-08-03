@@ -24,5 +24,9 @@
       %h4 Other
       %p=link_to "Read more at GovTrack", @bill.url, target: '_'
       %p=link_to "Call #{@bill.legislator.name}", '#'
-      %p=link_to "Bookmark", '#'
+      -if current_user
+        -if @bill.bookmarked_by_user?(current_user.id)
+          %p Already bookmarked!
+        -else
+          %p=link_to "Bookmark", bookmarks_path(bill_id: @bill.id), method: :post
       %p=link_to "Find another good deed", '/good_deed'

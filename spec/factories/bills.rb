@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :bill do
-    bill_id "MyString"
-    bill_type "MyString"
-    chamber "house"
+    bill_id { Faker::Lorem.word << rand(100).to_s << '-114' }
+    bill_type { %w(hr s hres sres sjres hjres hconres sconres).sample }
+    chamber { ['house', 'senate'].sample }
     congress 114
     cosponsors_count { rand(10) }
     introduced_on "2015-06-29"
@@ -15,6 +15,6 @@ FactoryGirl.define do
     last_action_type "MyString"
     last_action_text "MyText"
     last_version_pdf "MyString"
-    legislator_id 1
+    legislator
   end
 end

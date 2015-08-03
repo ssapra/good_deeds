@@ -4,7 +4,7 @@
       .row
         .col.s1
           %a{:href => "/"} Good Deed
-        .col.s9
+        .col.s8
           =form_tag(legislators_path, method: :get, remote: true, id: 'search') do
             .input-field
               %label.search{:for => "search"}
@@ -18,10 +18,11 @@
               -else
                 -placeholder_text = 'Search bills (bill id, keywords) or legislators (name, state, zipcode, party, title)'
               =text_field_tag :search, params[:search], placeholder: placeholder_text, required: '', type: 'search', autocomplete: 'off'
-        .col.s2
+        .col.s3
           %ul.right.hide-on-med-and-down
             -if user_signed_in?
               %li=link_to "My Account", user_path(current_user)
+              %li=link_to "Bookmarks", bookmarks_path
               %li=link_to "Logout", destroy_user_session_path, method: :delete
             -else
               %li=link_to "Log in", new_user_session_path

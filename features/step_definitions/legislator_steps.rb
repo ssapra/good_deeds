@@ -24,8 +24,8 @@ When(/^I click on "(.*?)"$/) do |text|
 end
 
 Then(/^I see (\d+) legislators$/) do |result_count|
-  find('#legislator_results', match: :first)
-  expect(all('#legislator_results tbody tr').count).to eq(result_count.to_i)
+  find('#results', match: :first)
+  expect(all('#results tbody tr').count).to eq(result_count.to_i)
 end
 
 Then(/^I see the legislator page for "(.*?)"$/) do |name|

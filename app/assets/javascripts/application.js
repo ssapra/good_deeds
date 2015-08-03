@@ -20,29 +20,12 @@ $(document).ready(function() {
 
     $('#user_political_party').material_select();
 
-    $(document).on('click', '#legislator_results tr', function() {
+    $(document).on('click', '#results tr', function() {
         var url = $(this).attr("data-url");
         if(url) {
             window.location = url;
         }
     });
-
-    $('#search').on('click', function(){
-        $('.main-body').hide();
-        $('.main').removeClass('layout-transparent');
-        $('.mdl-layout').removeClass('layout-transparent');
-        $('header').removeClass('mdl-layout__header--transparent');
-    });
-
-    $(document).keyup(function(e) {
-        if (e.keyCode == 27){
-            $('.main-body').show();
-            $('.main').addClass('layout-transparent');
-            $('.mdl-layout').addClass('layout-transparent');
-            $('header').addClass('mdl-layout__header--transparent');
-        }
-    });
-
 
     $('#tag_name').autocomplete({
         source: $('#tag_name').data('autocomplete-source'),
