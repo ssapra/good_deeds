@@ -16,19 +16,21 @@
         %tbody
           -@bill.bill_actions.order(date: :desc).take(10).each do |action|
             %tr
-              %td="#{action.date.strftime('%B %-d, %Y')}: #{action.text}"
-          %td="#{@bill.introduced_on.strftime('%B %-d, %Y')}: Introduced to the #{@bill.chamber}"
+              %td.col.s3="#{action.date.strftime('%B %-d, %Y')}:"
+              %td.col.s9="#{action.text}"
+          %td.col.s3="#{@bill.introduced_on.strftime('%B %-d, %Y')}:"
+          %td.col.s9="Introduced to the #{@bill.chamber}"
 
   .col.s3
     .card-panel
       %h4 Other
       .row
-        .col.s5
+        .col.s6
           %p=link_to "<i class='material-icons'>note_add</i>".html_safe << "Read more at GovTrack", @bill.url, target: '_'
-        .col.s5
+        .col.s6
           %p=link_to "<i class='material-icons'>call</i>".html_safe << "Call #{@bill.legislator.name}", '#'
       .row
-        .col.s5
+        .col.s6
           -if current_user
             -if @bill.bookmarked_by_user?(current_user.id)
               %p
@@ -36,7 +38,7 @@
                 Bookmarked!
             -else
               %p=link_to "<i class='material-icons'>bookmark_border</i>".html_safe << 'Add to bookmarks', bookmarks_path(bill_id: @bill.id), method: :post
-        .col.s5
+        .col.s6
           %p=link_to "<i class='material-icons'>refresh</i>".html_safe << "Find another good deed", '/good_deed'
 
       .row

@@ -16,6 +16,15 @@ body {
   padding: 5px 5px;
 }
 
+.query-filter {
+  padding: 0 1rem;
+  margin: 0 0.5em;
+}
+
+#query {
+  padding-left: 2rem;
+}
+
 .tags i {
   font-size: 1rem;
 }
@@ -63,6 +72,10 @@ table {
   background-color: white;
 }
 
+.actions tr {
+  line-height: 1.5em;
+}
+
 // .ui-autocomplete {
 //   background-color: white;
 //   margin-left: 25%;
@@ -72,6 +85,13 @@ table {
 //     margin: 5px 0;
 //   }
 // }
+
+.card-panel a{
+  display: inline-flex;
+}
+.fb-share-button{
+  display: block !important;
+}
 
 .ui-autocomplete {
   position: absolute;

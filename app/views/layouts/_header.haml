@@ -4,11 +4,23 @@
       .row
         .col.s1
           %a{:href => "/"} Good Deed
-        .col.s8
-          =form_tag(search_path, method: :get, remote: true, id: 'search') do
+        .col.s3
+          /%i.material-icons search
+          %span
+            Search
+            -if params[:resource] == "Legislators"
+              =link_to "Bills", '#', class: 'waves-effect waves-light btn query-filter disabled'
+              |
+              =link_to "Legislators", '#', class: 'waves-effect waves-light btn query-filter active'
+            -else
+              =link_to "Bills", '#', class: 'waves-effect waves-light btn query-filter active'
+              |
+              =link_to "Legislators", '#', class: 'waves-effect waves-light btn query-filter disabled'
+            for
+        .col.s5
+          =form_tag('#', method: :get, remote: true, id: 'search') do
+            =hidden_field_tag :resource, "Bills"
             .input-field
-              %label.search{:for => "query"}
-                %i.material-icons search
               - if @bill
                 -placeholder_text = @bill.bill_id
               -elsif @legislator
@@ -16,7 +28,7 @@
               -elsif params[:search]
                 -placeholder_text = params[:query]
               -else
-                -placeholder_text = 'Search bills (bill id, keywords) or legislators (name, state, zipcode, party, title)'
+                -placeholder_text = 'keywords like FDA, Banking, Military spending'
               =text_field_tag :query, params[:query], placeholder: placeholder_text, required: '', type: 'search', autocomplete: 'off'
         .col.s3
           %ul.right.hide-on-med-and-down

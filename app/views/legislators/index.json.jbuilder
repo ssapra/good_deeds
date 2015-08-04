@@ -2,7 +2,3 @@ json.search_query params[:query]
 json.legislators @legislators do |legislator|
   json.extract! legislator, :title, :firstname, :middlename, :lastname, :name_suffix, :nickname, :party, :state, :district, :gender, :phone, :fax, :website, :webform, :congress_office, :bioguide_id, :votesmart_id, :fec_id, :govtrack_id, :crp_id, :twitter_id, :congresspedia_url, :youtube_url, :facebook_id, :official_rss, :senate_class, :birthdate, :oc_email, :in_office
 end
-
-json.bills @pg_results do |pg_result|
-  json.extract! pg_result.searchable, :bill_id, :bill_type, :chamber, :congress, :cosponsors_count, :introduced_on, :official_title, :popular_title, :short_title, :summary_short, :url, :last_action_at, :last_action_type, :last_action_text, :last_version_pdf, :legislator_id
-end

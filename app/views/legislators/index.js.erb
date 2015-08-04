@@ -1,0 +1,2 @@
+$('.main').html("<%= escape_javascript(render 'results') %>")
+$('input#search').attr('placeholder', "<%= escape_javascript(params[:search]) %>")

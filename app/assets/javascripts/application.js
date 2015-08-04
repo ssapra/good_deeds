@@ -20,12 +20,39 @@ $(document).ready(function() {
 
     $('#user_political_party').material_select();
 
+    $(document).on('click', '.query-filter.disabled', function(e){
+        var active_button = $('.query-filter.active');
+        active_button.removeClass('active').addClass('disabled');
+        $(e.currentTarget).removeClass('disabled').addClass('active');
+        var resource = $('.query-filter.active').text();
+        if (resource == "Legislators") {
+            $('#query').attr("placeholder", "name, state, title, party, or zipcode");
+        } else {
+            $('#query').attr("placeholder", "keywords like FDA, Banking, Military spending");
+        }
+        $('#resource').val(resource);
+    });
+
     $(document).on('click', '#results tr', function() {
         var url = $(this).attr("data-url");
         if(url) {
             window.location = url;
         }
     });
+
+    $('#search').submit(function(e){
+        e.preventDefault();
+        var resource = $('.query-filter.active').text();
+        console.log(resource.toLowerCase());
+        $.ajax({
+            type: "GET",
+            url: "/" + resource.toLowerCase(),
+            data: $('#search').serialize(),
+            dataType: 'script'
+        });
+        return false;
+    })
+
 
     $('#tag_name').autocomplete({
         source: $('#tag_name').data('autocomplete-source'),

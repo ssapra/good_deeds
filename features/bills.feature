@@ -11,30 +11,30 @@ Feature: Search and viewing bills
   @javascript
   Scenario: Search using a part of the official_title
     Given I am a new user
-    When I search "Federal Food"
+    When I search bills for "Federal Food"
     Then I see 1 bills
 
   @javascript
   Scenario: Search using a part of the short_title
     Given I am a new user
-    When I search "Food Labeling"
+    When I search bills for "Food Labeling"
     Then I see 1 bills
 
   @javascript
   Scenario: Search using a part of the summary
     Given I am a new user
-    When I search "DNA recombinant"
+    When I search bills for "DNA recombinant"
     Then I see 1 bills
 
   @javascript
   Scenario: Click on search result
     Given I am a new user
-    When I search "DNA recombinant"
-    And I click on "recombinant DNA"
+    When I search bills for "DNA recombinant"
+    And I click on "Federal Food"
     Then I see the bill page for "Safe and Accurate Food Labeling Act of 2015"
 
   @javascript
   Scenario: No results found for search
     Given I am a new user
-    When I search "mystery alient act of 2025"
-    Then I see no results found
+    When I search bills for "mystery alient act of 2025"
+    Then I see "0 bills found for mystery alient act of 2025"
