@@ -3,7 +3,9 @@
     %h4 Bookmarks
     -if @bills.empty?
       %h4
-        No bookmarks yet! Check out some
+        No bookmarks yet! Fill out your zipcode/political interests at your
+        =link_to "Account", '/account'
+        and then check out some
         =link_to "bills", '/good_deed'
     -else
       %table.bordered.hoverable.responsive-table#results

@@ -9,15 +9,17 @@ class BillsController < ApplicationController
   end
 
   def random_good_deed
+    bills = []
     if current_user
       tag_bills = current_user.tags.map(&:bills)
       legislator_bills = current_user.legislators_by_zipcode.map(&:bills)
       bills = (tag_bills + legislator_bills).flatten
-      @bill = bills.sample
+      bills = Bill.all if bills.empty?
     else
-      @bill = Bill.all.sample
+      bills = Bill.all
     end
-    redirect_to "/bills/#{@bill.bill_id}"
+    bill = bills.sample
+    redirect_to "/bills/#{bill.bill_id}"
   end
 
   def show

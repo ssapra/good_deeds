@@ -39,7 +39,7 @@ class SunlightlabsApi
         bill = Bill.where(bill_attributes).first_or_create
 
         actions.each do |action|
-          BillAction.create(text: action['text'], date: Date.parse(action['acted_at']), bill_id: bill.id)
+          BillAction.create(text: action['text'], date: Date.parse(action['acted_at']), bill_id: bill.id, result: action['result'], chamber: action['chamber'])
         end
 
         row['keywords'].each do |keyword|

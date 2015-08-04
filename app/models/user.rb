@@ -6,12 +6,12 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :user_tags
+  has_many :user_tags, dependent: :destroy
   has_many :tags, through: :user_tags
 
-  has_many :user_bills
+  has_many :user_bills, dependent: :destroy
   has_many :bills, through: :user_bills
-  
+
   accepts_nested_attributes_for :user_tags, :reject_if => lambda { |a| a[:tag_id].blank? }, allow_destroy: true
 
   validate :valid_us_zipcode, on: :update
@@ -23,6 +23,7 @@ class User < ActiveRecord::Base
   end
 
   def legislators_by_zipcode
+    return [] unless zipcode
     lq = LegislatorQuery.new(Legislator.all, zipcode)
     lq.search
   end

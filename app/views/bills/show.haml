@@ -11,6 +11,9 @@
               %td.col.s2 Title:
               %td.col.s10=@bill.official_title
             %tr
+              %td.col.s2 Status:
+              %td.col.s10=@bill.current_status
+            %tr
               %td.col.s2 Introduced:
               %td.col.s10=@bill.introduced_on.strftime('%B %-d, %Y')
             %tr
@@ -29,7 +32,7 @@
       %h4 Actions
       %table.actions
         %tbody
-          -@bill.bill_actions.order(date: :desc).take(10).each do |action|
+          -@bill.bill_actions.order(date: :desc).each do |action|
             %tr
               %td.col.s3="#{action.date.strftime('%B %-d, %Y')}:"
               %td.col.s9="#{action.text}"
