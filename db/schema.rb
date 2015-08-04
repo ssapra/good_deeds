@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150803163001) do
+ActiveRecord::Schema.define(version: 20150804191020) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,9 +65,9 @@ ActiveRecord::Schema.define(version: 20150803163001) do
 
   create_table "legislators", force: :cascade do |t|
     t.string   "title"
-    t.string   "firstname"
-    t.string   "middlename"
-    t.string   "lastname"
+    t.string   "first_name"
+    t.string   "middle_name"
+    t.string   "last_name"
     t.string   "name_suffix"
     t.string   "nickname"
     t.string   "party"
@@ -77,24 +77,23 @@ ActiveRecord::Schema.define(version: 20150803163001) do
     t.string   "phone"
     t.string   "fax"
     t.string   "website"
-    t.string   "webform"
-    t.string   "congress_office"
+    t.string   "contact_form"
+    t.string   "office"
     t.string   "bioguide_id"
     t.string   "votesmart_id"
-    t.string   "fec_id"
     t.string   "govtrack_id"
     t.string   "crp_id"
     t.string   "twitter_id"
-    t.string   "congresspedia_url"
-    t.string   "youtube_url"
+    t.string   "youtube_id"
     t.string   "facebook_id"
-    t.string   "official_rss"
-    t.string   "senate_class"
-    t.string   "birthdate"
+    t.string   "birthday"
     t.string   "oc_email"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-    t.integer  "in_office"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.string   "term_start"
+    t.string   "term_end"
+    t.string   "leadership_role"
+    t.boolean  "in_office"
   end
 
   create_table "pg_search_documents", force: :cascade do |t|

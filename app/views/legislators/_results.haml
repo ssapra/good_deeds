@@ -9,14 +9,14 @@
               %th Name
               %th Party
               %th State
-              %th Currently in-office
               %th Website
           %tbody
             -@legislators.each do |legislator|
               %tr{'data-url' => "/legislators/#{legislator.id}"}
-                %td=legislator.full_title
-                %td=legislator.party
+                %td
+                  %p=legislator.name
+                  %p=legislator.verbose_summary
+                %td=legislator.full_party
                 %td=legislator.state
-                %td= legislator.in_office ? 'Yes' : 'No'
                 %td=link_to legislator.website, legislator.website, target: '_'
         = paginate @legislators

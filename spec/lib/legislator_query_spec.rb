@@ -13,7 +13,7 @@ describe LegislatorQuery do
   describe '#search' do
     context 'by single parameter' do
       context 'full first name' do
-        let(:legislator_query) { LegislatorQuery.new(Legislator.all, @legislator_1.firstname) }
+        let(:legislator_query) { LegislatorQuery.new(Legislator.all, @legislator_1.first_name) }
 
         it 'searches for legislators who match the name' do
           expect(legislator_query.search.count).to eq(1)
@@ -21,7 +21,7 @@ describe LegislatorQuery do
       end
 
       context 'lowercase last name' do
-        let(:legislator_query) { LegislatorQuery.new(Legislator.all, @legislator_2.lastname.downcase) }
+        let(:legislator_query) { LegislatorQuery.new(Legislator.all, @legislator_2.last_name.downcase) }
 
         it 'searches for legislators who match the name' do
           expect(legislator_query.search.count).to eq(1)
@@ -87,7 +87,7 @@ describe LegislatorQuery do
       end
 
       context 'first and last name' do
-        let(:legislator_query) { LegislatorQuery.new(Legislator.all, "#{@legislator_1.firstname} #{@legislator_1.lastname}") }
+        let(:legislator_query) { LegislatorQuery.new(Legislator.all, "#{@legislator_1.first_name} #{@legislator_1.last_name}") }
 
         it "searches for legislators by full name" do
           expect(legislator_query.search.count).to eq(1)
@@ -103,7 +103,7 @@ describe LegislatorQuery do
       end
 
       context 'state, name, title, and party' do
-        let(:legislator_query) { LegislatorQuery.new(Legislator.all, "illinois #{@legislator_2.firstname} #{@legislator_2.lastname} delegate democratic") }
+        let(:legislator_query) { LegislatorQuery.new(Legislator.all, "illinois #{@legislator_2.first_name} #{@legislator_2.last_name} delegate democratic") }
 
         it "searches for legislators who are Democratic Delegators in Illinois by name" do
           expect(legislator_query.search.count).to eq(1)

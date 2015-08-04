@@ -3,14 +3,12 @@
 .row
   .col.s10.offset-s1
     .card.large
-      .card-image.waves-effect.waves-block.waves-light
-        =image_tag "washington.jpg", class: 'activator'
-      .card-content
+      .col.s10.offset-s1
         %span.card-title.activator.grey-text.text-darken-4
-          Welcome
+          %h1 Welcome
         .row
-          %p
-            Congress desperately needs some good news. This app searchs through data from Congress' API and helps you learn about the positive changes they are making.
+          %h3 Congress desperately needs some good news.
+          %p This app searchs through data from Congress' API and helps you learn about the positive changes they are making.
         .row
-          %p
+          .col.s4.offset-s4
             %a.waves-effect.waves-light.btn.blue{href: '/good_deed'} Find a good deed

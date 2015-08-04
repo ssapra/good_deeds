@@ -2,11 +2,26 @@
   .col.s10.offset-s1
     .card-panel
       %h5
-        ="#{@bill.title}"
-        =": #{@bill.short_title}" if @bill.short_title
-        =": #{@bill.official_title}" if @bill.short_title.nil?
-      %h5="Sponsored by: #{@bill.legislator.all_info}"
-      %p="Summary: #{@bill.summary_short}"
+        =@bill.title
+        =@bill.short_title if @bill.short_title
+      %table.bill_summary
+        %tbody
+          .row
+            %tr
+              %td.col.s2 Title:
+              %td.col.s10=@bill.official_title
+            %tr
+              %td.col.s2 Introduced:
+              %td.col.s10=@bill.introduced_on.strftime('%B %-d, %Y')
+            %tr
+              %td.col.s2 Sponsor:
+              %td.col.s10
+                %p= link_to @bill.legislator.name, @bill.legislator
+                %p= @bill.legislator.verbose_summary
+                %p= @bill.legislator.full_party
+            %tr
+              %td.col.s2 Summary:
+              %td.col.s10= @bill.summary_short
 
 .row
   .col.s7.offset-s1

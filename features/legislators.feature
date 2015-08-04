@@ -5,9 +5,9 @@ Feature: Interacting with legislators data
 
   Background:
     Given the following legislators exist:
-      | firstname   | lastname    | party | title | state   | district  |
-      | Bob         | Jones       | D     | Rep   | IL      | 7         |
-      | Alice       | Smith       | R     | Sen   | NY      | 12        |
+      | first_name    | last_name    | party | title | state   | district  |
+      | Bob           | Jones        | D     | Rep   | IL      | 7         |
+      | Alice         | Smith        | R     | Sen   | NY      | 12        |
     And the following congressional districts exist:
       | congressional_district_id | state | zipcode   |
       | 7                         | IL    | 60606     |

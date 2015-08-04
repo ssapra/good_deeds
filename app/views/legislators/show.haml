@@ -1,7 +1,78 @@
-=@legislator.full_title
+.row
+  .col.s10.offset-s1
+    .card-panel
+      %h4=@legislator.name
+      .row
+        .col.s3
+          =image_tag "https://theunitedstates.io/images/congress/225x275/#{@legislator.bioguide_id}.jpg"
+        .col.s8
+          %table.legislator_summary
+            %tbody
+              .row
+                %tr
+                  %td.col.s2 Position:
+                  %td.col.s10=@legislator.verbose_summary
+                %tr
+                  %td.col.s2 Website:
+                  %td.col.s10=@legislator.website
+                %tr
+                  %td.col.s2 Age:
+                  %td.col.s10="#{@legislator.age} years old"
 
--@legislator.bills.each do |bill|
-  %p="Sponsored #{bill.official_title}"
 
 
-="Call: #{@legislator.phone}"
+
+            -# @legislator.in_office
+
+            -# @legislator.office
+            -# @legislator.votesmart_id
+            -# @legislator.fec_id
+
+            -# @legislator.crp_id
+            -# @legislator.congresspedia_url
+
+            -# @legislator.senate_class
+            -# @legislator.oc_email
+
+.row
+  .col.s7.offset-s1
+    .card-panel
+      %h4="Sponsored #{pluralize(@legislator.bills.count, 'bill')}"
+      %table.bill_summary
+        %thead
+          %tr
+            %td.col.s2 Introduced
+            %td.col.s10 Summary
+        %tbody
+          .row
+            -@legislator.bills.each do |bill|
+              %tr
+                %td.col.s2=bill.introduced_on.strftime('%B %-d, %Y')
+                %td.col.s10
+                  %h6.bill_title="#{bill.title} - #{bill.short_title}"
+                  %p.summary=bill.summary_short
+  .col.s3
+    .card-panel
+      %h4 Read More
+      .row
+        .col.s6
+          %p=link_to "VoteSmart", @legislator.votesmart_url, target: '_'
+        .col.s6
+          %p=link_to "BioGuide", @legislator.bioguide_url, target: '_'
+      %h4 Social Media
+      .row
+        .col.s4
+          %p=link_to 'Youtube', "https://www.youtube.com/#{@legislator.youtube_id}", target: '_'
+        .col.s4
+          %p=link_to "Facebook", "http://www.facebook.com/#{@legislator.facebook_id}", target: '_'
+        .col.s4
+          %p=link_to "Twitter", "http://www.twitter.com/#{@legislator.twitter_id}", target: '_'
+      %h4 Contact
+      .row
+        .col.s12
+          %p="Phone: #{@legislator.phone}"
+          %p="Fax: #{@legislator.fax}"
+          %p=link_to "Contact contact_form", @legislator.contact_form
+      .row
+        .cols12
+          %p="Address: #{@legislator.office}"

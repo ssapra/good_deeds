@@ -5,7 +5,7 @@ class LegislatorsController < ApplicationController
     render('index') && return if search_params.empty?
 
     lq = LegislatorQuery.new(Legislator.all, search_params)
-    @legislators = lq.search.order(:in_office, :firstname)
+    @legislators = lq.search.order(:in_office, :first_name)
     @num_legislators = @legislators.count
     @legislators = @legislators.page(params[:page])
   end

@@ -22,7 +22,7 @@ class SunlightlabsApi
         values = direct_attributes.map { |attribute| row.fetch(attribute) }
         bill_attributes = Hash[direct_attributes.zip(values)]
         sponsor = row['sponsor']
-        legislator = Legislator.where(firstname: sponsor['first_name'], lastname: sponsor['last_name']).first
+        legislator = Legislator.where(first_name: sponsor['first_name'], last_name: sponsor['last_name']).first
         bill_attributes['legislator_id'] = legislator.id if legislator
         bill_attributes['url'] = row['urls']['govtrack'] if row['urls']
         last_action = row['last_action']
@@ -68,5 +68,16 @@ class SunlightlabsApi
     end
     keywords.uniq!
     keywords.each { |keyword| Tag.create(name: keyword) }
+  end
+
+  def self.get_legislators
+    url = "#{DOMAIN}/legislators?per_page=all&apikey=#{ENV['SUNLIGHTLABS_APIKEY']}"
+    data = JSON.parse(open(url).read)
+    direct_attributes = %w(bioguide_id birthday contact_form district facebook_id fax first_name gender fax in_office last_name leadership_role middle_name name_suffix nickname office party phone state term_end term_start title twitter_id votesmart_id website youtube_id)
+    data['results'].each do |row|
+      values = direct_attributes.map { |attribute| row.fetch(attribute, nil) }
+      legislator_attributes = Hash[direct_attributes.zip(values)]
+      Legislator.create(legislator_attributes)
+    end
   end
 end

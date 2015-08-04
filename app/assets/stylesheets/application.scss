@@ -12,13 +12,22 @@ body {
   z-index: 999;
 }
 
-.actions tr {
-  padding: 5px 5px;
+.bill_summary tr, .legislator_summary tr {
+  line-height: 1.5em;
 }
 
 .query-filter {
   padding: 0 1rem;
   margin: 0 0.5em;
+}
+
+.bill_title {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.summary {
+  font-size: 12px;
 }
 
 #query {

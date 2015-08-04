@@ -99,6 +99,6 @@ class LegislatorQuery
   def handle_names
     normalized_name = current_search_term
     @params.push(normalized_name, normalized_name)
-    @query << '(firstname LIKE ? OR lastname LIKE ?)'
+    @query << '(first_name LIKE ? OR last_name LIKE ?)'
   end
 end

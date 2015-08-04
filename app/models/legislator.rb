@@ -2,15 +2,57 @@ class Legislator < ActiveRecord::Base
   paginates_per 50
   has_many :bills
 
-  def all_info
-    full_title << " #{party[0]}-#{state}"
+  def verbose_summary
+    land = STATES.key(state)
+
+    if title == 'Del' || title == 'Com'
+      "#{full_title} for #{land} At Large"
+    elsif title == 'Rep' && district
+      "#{full_title} for #{land}'s #{district.to_i.ordinalize} congressional district"
+    else
+      "#{full_title} from #{land}"
+    end
+  end
+
+  def bioguide_url
+    "http://bioguide.congress.gov/scripts/biodisplay.pl?index=#{bioguide_id}"
+  end
+
+  def votesmart_url
+    "http://votesmart.org/candidate/#{votesmart_id}/#{first_name}-#{last_name}"
+  end
+
+  def age
+    dob = Date.parse(birthday)
+    now = Time.now.utc.to_date
+    now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
   end
 
   def full_title
-    [title.to_s << '.', name].join(' ')
+    case title
+    when 'Sen'
+      'Senator'
+    when 'Rep'
+      'Representative'
+    when 'Com'
+      'Commissioner'
+    when 'Del'
+      'Delegate'
+    end
+  end
+
+  def full_party
+    case party
+    when 'D'
+      'Democrat'
+    when 'R'
+      'Republican'
+    else
+      'Independent'
+    end
   end
 
   def name
-    [firstname, middlename, lastname].compact.join(' ')
+    [first_name, middle_name, last_name].compact.join(' ')
   end
 end

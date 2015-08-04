@@ -30,7 +30,7 @@ Feature: Search and viewing bills
   Scenario: Click on search result
     Given I am a new user
     When I search bills for "DNA recombinant"
-    And I click on "Federal Food"
+    And I click on "recombinant DNA"
     Then I see the bill page for "Safe and Accurate Food Labeling Act of 2015"
 
   @javascript
