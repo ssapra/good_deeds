@@ -19,6 +19,8 @@ gem 'materialize-sass'
 
 gem 'pg_search'
 
+gem 'whenever', require: false
+
 gem 'kaminari'
 
 gem 'sass-rails', '~> 5.0'
