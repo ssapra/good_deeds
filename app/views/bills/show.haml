@@ -32,10 +32,16 @@
       %h4 Actions
       %table.actions
         %tbody
-          -@bill.bill_actions.order(date: :desc).each do |action|
-            %tr
-              %td.col.s3="#{action.date.strftime('%B %-d, %Y')}:"
-              %td.col.s9="#{action.text}"
+          -@bill.bill_actions.order(created_at: :desc).each do |action|
+            -if action.important?
+              %tr.bold
+                %td.col.s3="#{action.date.strftime('%B %-d, %Y')}:"
+                %td.col.s9="#{action.text}"
+            -else
+              %tr
+                %td.col.s3="#{action.date.strftime('%B %-d, %Y')}:"
+                %td.col.s9="#{action.text}"
+
           %td.col.s3="#{@bill.introduced_on.strftime('%B %-d, %Y')}:"
           %td.col.s9="Introduced to the #{@bill.chamber}"
 

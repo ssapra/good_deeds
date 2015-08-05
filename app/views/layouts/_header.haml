@@ -5,10 +5,9 @@
         .col.s1
           %a{:href => "/"} Good Deed
         .col.s3
-          /%i.material-icons search
           %span
             Search
-            -if params[:resource] == "Legislators"
+            -if params[:resource] == "Legislators" || request.original_url.include?('legislators')
               =link_to "Bills", '#', class: 'waves-effect waves-light btn query-filter disabled'
               |
               =link_to "Legislators", '#', class: 'waves-effect waves-light btn query-filter active'

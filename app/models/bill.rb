@@ -23,35 +23,16 @@ class Bill < ActiveRecord::Base
     UserBill.exists?(user_id: user_id, bill_id: self.id)
   end
 
-  def passed_senate?
-    bill_actions.exists?(chamber: 'senate', result: 'pass')
-  end
-
-  def passed_house?
-    bill_actions.exists?(chamber: 'house', result: 'pass')
-  end
-
-  def introduced?
-    true
-  end
-
-  def signed_by_president?
-    bill_actions.exists?(text: 'Signed by President.')
-  end
-
-  def enacted?
-    bill_actions.exists? { |ba| ba.text.include?('Became Public Law') }
-  end
-
   def current_status
-    if enacted?
-      bill_actions.order(:date).last.text
-    elsif signed_by_president?
+    actions = bill_actions
+    if enacted = actions.enacted.first
+      bill_actions.order(:created_at).last.text
+    elsif signed = actions.signed.first
       "Signed by President"
-    elsif passed_house?
-      bill_actions.where(chamber: 'house', result: 'pass').first.text
-    elsif passed_senate?
-      bill_actions.where(chamber: 'senate', result: 'pass').first.text
+    elsif passed_house = actions.passed_house.first
+      "Passed House on #{passed_house.date.strftime('%b %-d, %Y')}"
+    elsif passed_senate = actions.passed_senate.first
+      "Passed Senate on #{passed_senate.date.strftime('%b %-d, %Y')}"
     else
       "Introduced to #{chamber}"
     end

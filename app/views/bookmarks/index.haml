@@ -8,15 +8,24 @@
         and then check out some
         =link_to "bills", '/good_deed'
     -else
-      %table.bordered.hoverable.responsive-table#results
+      %table.bordered.hoverable.responsive-table#results#clickable
+        %thead
+          .row
+            %td.col.s2 Last Action
+            %td.col.s3 Status
+            %td.col.s7 Summary
         %tbody
-          -@bills.each do |bill|
-            %tr{'data-url' => "/bills/#{bill.bill_id}"}
-              %td=bill.title
-              %td=bill.legislator.full_title
-              %td=bill.introduced_on.strftime("%B %d, %Y")
-              %td=bill.last_action_at.strftime("%B %d, %Y")
-              %td=link_to bill.url, bill.url, target: '_'
-              %td.remove=link_to '<i class="material-icons">close</i>'.html_safe, bookmarks_path(bill_id: bill.id), method: :delete
+          .row
+            -@bills.each do |bill|
+              %tr{'data-url' => "/bills/#{bill.bill_id}"}
+                %td.col.s2=bill.last_action_at.strftime('%b %-d, %Y')
+                %td.col.s3=bill.current_status
+                %td.col.s7
+                  %h6.bill_title
+                    ="#{bill.title} - "
+                    =bill.short_title if bill.short_title
+                    =bill.official_title unless bill.short_title
+                  %p.summary=bill.summary_short
+                %td.remove=link_to '<i class="material-icons">close</i>'.html_safe, bookmarks_path(bill_id: bill.id), method: :delete
 
       = paginate @bills

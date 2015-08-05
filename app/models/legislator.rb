@@ -5,12 +5,20 @@ class Legislator < ActiveRecord::Base
   def verbose_summary
     land = STATES.key(state)
 
-    if title == 'Del' || title == 'Com'
+    if title == 'Del' || title == 'Com' || district == '0'
       "#{full_title} for #{land} At Large"
-    elsif title == 'Rep' && district
+    elsif title == 'Rep' && district != '0'
       "#{full_title} for #{land}'s #{district.to_i.ordinalize} congressional district"
     else
       "#{full_title} from #{land}"
+    end
+  end
+
+  def full_leadership_role
+    if leadership_role == 'Speaker'
+      'Speaker of the House'
+    else
+      "House #{leadership_role}"
     end
   end
 

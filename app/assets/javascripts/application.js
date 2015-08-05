@@ -33,7 +33,7 @@ $(document).ready(function() {
         $('#resource').val(resource);
     });
 
-    $(document).on('click', '#results tr', function() {
+    $(document).on('click', '#clickable tr', function() {
         var url = $(this).attr("data-url");
         if(url) {
             window.location = url;
@@ -43,7 +43,6 @@ $(document).ready(function() {
     $('#search').submit(function(e){
         e.preventDefault();
         var resource = $('.query-filter.active').text();
-        console.log(resource.toLowerCase());
         $.ajax({
             type: "GET",
             url: "/" + resource.toLowerCase(),

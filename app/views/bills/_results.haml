@@ -3,7 +3,7 @@
     -if !params[:query].empty?
       %h4="#{@num_bills} bills found for #{params[:query]}"
       -if @pg_results.any?
-        %table.bordered.hoverable.responsive-table#results
+        %table.bordered.hoverable.responsive-table#results#clickable
           %thead
             .row
               %td.col.s2 Introduced
@@ -15,6 +15,9 @@
                 %tr{'data-url' => "/bills/#{bill.bill_id}"}
                   %td.col.s2=bill.introduced_on.strftime('%B %-d, %Y')
                   %td.col.s10
-                    %h6.bill_title="#{bill.title} - #{bill.short_title}"
+                    %h6.bill_title
+                      ="#{bill.title} - "
+                      =bill.short_title if bill.short_title
+                      =bill.official_title unless bill.short_title
                     %p.summary=bill.summary_short
         = paginate @pg_results
