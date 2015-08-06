@@ -36,7 +36,7 @@ end
 
 Then(/^I see the bill page for "(.*?)"$/) do |title|
   bill = Bill.find_by_short_title(title)
-  expect(page).to have_content(bill.title)
+  expect(page).to have_content(bill.type_and_num)
 end
 
 Then(/^I see the bill page$/) do

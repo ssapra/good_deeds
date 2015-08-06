@@ -22,6 +22,9 @@ class BillsController < ApplicationController
 
   def show
     @bill = Bill.find_by_bill_id(params[:bill_id])
+    @legislator = @bill.legislator
+    @bill_actions = @bill.bill_actions
+    @important_actions = @bill_actions.important
   end
 
   private

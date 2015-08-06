@@ -12,7 +12,7 @@
               - if @bill
                 -placeholder_text = @bill.bill_id
               -elsif @legislator
-                -placeholder_text = name(@legislator)
+                -placeholder_text = legislator_name
               -elsif params[:search]
                 -placeholder_text = params[:query]
               -else

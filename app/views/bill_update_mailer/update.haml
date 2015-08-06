@@ -13,7 +13,7 @@
           -bill = Bill.find(bill_id)
           %tr{style: 'border-bottom: 1px solid black; border-top: 1px solid black;'}
             %td{style: 'width: 30%;'}
-              %p{style: 'font-weight: bold;'}="#{bill.title}"
+              %p{style: 'font-weight: bold;'}="#{bill.type_and_num}"
               =bill.short_title if bill.short_title
               =bill.official_title unless bill.short_title
 

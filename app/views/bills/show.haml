@@ -1,7 +1,7 @@
 .row
   .col.s10.offset-s1
     .card-panel
-      =bill_title(@bill)
+      =bill_title
       %table.bill_summary
         %tbody
           .row
@@ -10,7 +10,7 @@
               %td.col.s10=@bill.official_title
             %tr
               %td.col.s2 Status:
-              %td.col.s10=bill_current_status(@bill)
+              %td.col.s10=bill_current_status
             %tr
               %td.col.s2 Number of Co-Sponsors:
               %td.col.s10=@bill.cosponsors_count
@@ -21,9 +21,9 @@
               %tr
                 %td.col.s2 Sponsor:
                 %td.col.s10
-                  %p= link_to name(@bill.legislator), @bill.legislator
-                  %p.summary= verbose_summary(@bill.legislator)
-                  %p.summary= full_party(@bill.legislator)
+                  %p= link_to legislator_name, @legislator
+                  %p.summary= verbose_summary
+                  %p.summary= full_party
             %tr
               %td.col.s2 Summary:
               %td.col.s10= @bill.summary_short
@@ -38,7 +38,7 @@
       %h4 Actions
       %table.actions
         %tbody
-          -@bill.bill_actions.order(created_at: :desc).each do |action|
+          -@bill_actions.order(created_at: :desc).each do |action|
             =bill_action_text(action)
           %td.bold.col.s3="#{@bill.introduced_on.strftime('%B %-d, %Y')}:"
           %td.bold.col.s9="Introduced to the #{@bill.chamber}"
@@ -52,11 +52,11 @@
         - if @bill.legislator
           .col.s6
             %p=icon('call')
-            %p="Call #{name(@bill.legislator)}"
+            %p="Call #{legislator_name}"
             %p=@bill.legislator.phone
       .row
         .col.s6
-          =bookmark_options(@bill)
+          =bookmark_options
         .col.s6
           %p=link_to icon('refresh') << "Find another good deed", '/good_deed'
 

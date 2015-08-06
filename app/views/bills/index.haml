@@ -11,10 +11,10 @@
           %tbody
             .row
               -@pg_results.each do |result|
-                -bill = result.searchable
-                %tr{'data-url' => "/bills/#{bill.bill_id}"}
-                  %td.col.s2=bill.introduced_on.strftime('%B %-d, %Y')
+                -@bill = result.searchable
+                %tr{'data-url' => "/bills/#{@bill.bill_id}"}
+                  %td.col.s2=@bill.introduced_on.strftime('%B %-d, %Y')
                   %td.col.s10
-                    =bill_title(bill)
-                    %p.summary=bill.summary_short
+                    =bill_title
+                    %p.summary=@bill.summary_short
         = paginate @pg_results

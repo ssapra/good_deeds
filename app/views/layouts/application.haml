@@ -8,7 +8,11 @@
     %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
     = csrf_meta_tags
 
-  =body_image
+  -if request.original_url == root_url
+    %body.background
+  -else
+    %body
+
   #fb-root
   .main
     = render 'layouts/header'

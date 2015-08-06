@@ -1,11 +1,15 @@
 %h3 Tags
-=tag_message(current_user)
+-if current_user.tags.empty?
+  %h5 No tags! Add some below to help us find bills you'll be interested in
+-else
+  %p.summary Based on these tags, we'll find bills that match your interests
 
-%ul.collection.tags
-  -current_user.tags.each do |tag|
-    %li.collection-item{'data-tag-id' => tag.id}
-      %span=tag.name
-      =link_to icon('close'), user_tag_path(tag), remote: true, method: :delete
+-if current_user.tags.any?
+  %ul.collection.tags
+    -current_user.tags.each do |tag|
+      %li.collection-item{'data-tag-id' => tag.id}
+        %span=tag.name
+        =link_to icon('close'), user_tag_path(tag), remote: true, method: :delete
 
 =form_for(UserTag.new, class: "col s12") do |user_tag_form|
   .input-field.col.s12

@@ -3,18 +3,18 @@
     %p &nbsp;
   .col.s3
     .card-panel
-      %h4=name(@legislator)
+      %h4=legislator_name
       =image_tag "https://theunitedstates.io/images/congress/225x275/#{@legislator.bioguide_id}.jpg"
-      %p=full_leadership_role(@legislator)
-      %p=verbose_summary(@legislator)
+      %p=full_leadership_role
+      %p=verbose_summary
       %p=link_to @legislator.website, @legislator.website, target: '_'
-      %p=age(@legislator)
+      %p=age
     .card-panel
       %h4 Read More
       .row
         .col.s12
-          %p=link_to "VoteSmart", votesmart_url(@legislator), target: '_'
-          %p=link_to "BioGuide", bioguide_url(@legislator), target: '_'
+          %p=link_to "VoteSmart", votesmart_url, target: '_'
+          %p=link_to "BioGuide", bioguide_url, target: '_'
 
       %h4 Social Media
       .row
@@ -39,7 +39,7 @@
     .card-panel
       -if @legislator.bills.count == 0
         %h4 No sponsored bills
-        %h5="Give the #{full_title(@legislator)} a call and figure out what's on his/her plate"
+        %h5="Give the #{full_title} a call and figure out what's on his/her plate"
       -else
         %h4="Sponsored #{pluralize(@legislator.bills.count, 'bill')}"
         %table.responsive-table.bill_summary#clickable
@@ -54,7 +54,7 @@
                   %td.col.s2=bill.last_action_at.strftime('%B %-d, %Y')
                   %td.col.s10
                     %h6.bill_title
-                      ="#{bill.title} - "
+                      ="#{bill.type_and_num} - "
                       =bill.short_title if bill.short_title
                       =bill.official_title unless bill.short_title
                     %p.summary=bill.summary_short

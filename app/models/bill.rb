@@ -10,7 +10,7 @@ class Bill < ActiveRecord::Base
 
   has_many :bill_actions, dependent: :destroy
 
-  def title
+  def type_and_num
     bill_num = /[a-z]*(\d*)-\d*/.match(bill_id)[1]
 
     bill_types = { 'hr' => 'H.R.', 's' => 'S.', 'hres' => 'H.Res.',

@@ -17,14 +17,12 @@
         %tbody
           .row
             -@bills.each do |bill|
+              -@bill = bill
               %tr{'data-url' => "/bills/#{bill.bill_id}"}
                 %td.col.s2=bill.last_action_at.strftime('%b %-d, %Y')
-                %td.col.s3=bill_current_status(bill)
+                %td.col.s3=bill_current_status
                 %td.col.s7
-                  %h6.bill_title
-                    ="#{bill.title} - "
-                    =bill.short_title if bill.short_title
-                    =bill.official_title unless bill.short_title
+                  =bill_title
                   %p.summary=bill.summary_short
                 %td.remove=link_to icon('close'), bookmarks_path(bill_id: bill.id), method: :delete
 
