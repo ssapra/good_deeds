@@ -1,82 +1,99 @@
 require 'json'
 require 'open-uri'
-require 'date'
 
-class SunlightlabsApi
-  DOMAIN = 'https://congress.api.sunlightfoundation.com'
+module SunlightlabsApi
+  ENDPOINT = 'https://congress.api.sunlightfoundation.com'
   PER_PAGE = 50
+  BILL_FIELDS = %w(actions bill_id bill_type chamber congress cosponsors_count
+                   introduced_on keywords last_action.at last_version.urls.pdf
+                   official_title popular_title summary_short short_title
+                   sponsor.first_name sponsor.last_name sponsor.title
+                   urls.govtrack)
 
-  def self.get_bills
+  def self.bills
     page = 1
-    direct_attributes = %w(bill_id bill_type chamber congress cosponsors_count introduced_on official_title popular_title short_title summary_short)
-    fields = "actions,bill_id,bill_type,chamber,congress,cosponsors_count,introduced_on,keywords,last_action,last_version.urls.pdf,official_title,popular_title,summary_short,short_title,sponsor.first_name,sponsor.last_name,sponsor.title,urls.govtrack"
+    other_parameters = 'history.active=true&order=last_action_at&' \
+                       'introduced_on__gt="2015-01-01"'
 
+    fields = BILL_FIELDS.join(',')
     loop do
-      url = "#{DOMAIN}/bills?fields=#{fields}&history.active=true&order=last_action_at&introduced_on__gt=%222015-01-01%22&per_page=#{PER_PAGE}&page=#{page}&apikey=#{ENV['SUNLIGHTLABS_APIKEY']}"
+      url = "#{ENDPOINT}/bills?fields=#{fields}&#{other_parameters}&per_page=#{PER_PAGE}&page=#{page}&apikey=#{ENV['SUNLIGHTLABS_APIKEY']}"
       data = JSON.parse(open(url).read)
       results = data['results']
       page_count = data['page']['count']
-
-      results.each do |row|
-        values = direct_attributes.map { |attribute| row.fetch(attribute) }
-        bill_attributes = Hash[direct_attributes.zip(values)]
-        sponsor = row['sponsor']
-        legislator = Legislator.where(first_name: sponsor['first_name'], last_name: sponsor['last_name']).first
-        bill_attributes['legislator_id'] = legislator.id if legislator
-        bill_attributes['url'] = row['urls']['govtrack'] if row['urls']
-        last_action = row['last_action']
-        if last_action
-          bill_attributes['last_action_at'] = Date.parse(last_action['acted_at'])
-          bill_attributes['last_action_type'] = last_action['type']
-          bill_attributes['last_action_text'] = last_action['text']
-        end
-        bill_attributes['introduced_on'] = Date.parse(bill_attributes['introduced_on'])
-        bill_attributes['last_version_pdf'] = row['last_version']['urls']['pdf'] if row['last_version'] && row['last_version']['urls']
-
-        actions = row['actions']
-
-        bill = Bill.where(bill_attributes).first_or_create
-
-        actions.each do |action|
-          BillAction.create(text: action['text'], date: Date.parse(action['acted_at']), bill_id: bill.id, result: action['result'], chamber: action['chamber'])
-        end
-
-        row['keywords'].each do |keyword|
-          tag = Tag.where(name: keyword).first_or_create
-          BillTag.create(tag_id: tag.id, bill_id: bill.id)
-        end
-      end
-      break if page_count < PER_PAGE
+      parse_bill_results(results)
       page += 1
+      break if page_count < PER_PAGE
     end
   end
 
-  def self.get_keywords
-    keywords = []
-    page = 1
-    loop do
-      url = "#{DOMAIN}/bills?fields=keywords&history.active=true&order=last_action_at&introduced_on__gt=%222015-01-01%22&per_page=#{PER_PAGE}&page=#{page}&apikey=#{ENV['SUNLIGHTLABS_APIKEY']}"
-      data = JSON.parse(open(url).read)
-      results = data['results']
-      page_count = data['page']['count']
-      results.each do |row|
-        keywords += row['keywords']
-      end
-      break if page_count < PER_PAGE
-      page += 1
-    end
-    keywords.uniq!
-    keywords.each { |keyword| Tag.create(name: keyword) }
-  end
-
-  def self.get_legislators
-    url = "#{DOMAIN}/legislators?per_page=all&apikey=#{ENV['SUNLIGHTLABS_APIKEY']}"
-    data = JSON.parse(open(url).read)
-    direct_attributes = %w(bioguide_id birthday contact_form district facebook_id fax first_name gender fax in_office last_name leadership_role middle_name name_suffix nickname office party phone state term_end term_start title twitter_id votesmart_id website youtube_id)
-    data['results'].each do |row|
+  def self.legislators
+    url = "#{ENDPOINT}/legislators?per_page=all&apikey=#{ENV['SUNLIGHTLABS_APIKEY']}"
+    legislators = JSON.parse(open(url).read)['results']
+    direct_attributes = %w(bioguide_id birthday contact_form district
+                           facebook_id fax first_name gender fax in_office
+                           last_name leadership_role middle_name name_suffix
+                           nickname office party phone state term_end term_start
+                           title twitter_id votesmart_id website youtube_id)
+    legislators.each do |row|
       values = direct_attributes.map { |attribute| row.fetch(attribute, nil) }
       legislator_attributes = Hash[direct_attributes.zip(values)]
       Legislator.create(legislator_attributes)
+    end
+  end
+
+  def self.parse_bill_results(results)
+    direct_attributes = %w(bill_id bill_type chamber congress cosponsors_count
+                           introduced_on official_title popular_title
+                           short_title summary_short)
+
+    results.each do |row|
+      values = direct_attributes.map { |attribute| row.fetch(attribute) }
+      bill_attributes = Hash[direct_attributes.zip(values)]
+      bill_attributes['legislator_id'] = handle_sponsor(row)
+      bill_attributes['url'] = row['urls']['govtrack'] if row['urls']
+      bill_attributes['last_action_at'] = handle_last_action_at(row)
+
+      bill_attributes['introduced_on'] = Date.parse(bill_attributes['introduced_on'])
+      bill_attributes['last_version_pdf'] = handle_last_version_pdf(row)
+
+      bill = Bill.where(bill_attributes).first_or_create
+      create_bill_associations(bill, row['actions'], row['keywords'])
+    end
+  end
+
+  def self.handle_last_action_at(row)
+    return nil unless row['last_action'] && row['last_action']['acted_at']
+    Date.parse(row['last_action']['acted_at'])
+  end
+
+  def self.handle_sponsor(row)
+    return nil unless row['sponsor']
+    sponsor = row['sponsor']
+    legislator = Legislator.where(first_name: sponsor['first_name'],
+                                  last_name: sponsor['last_name']).first
+    return nil unless legislator
+
+    legislator.id
+  end
+
+  def self.handle_last_version_pdf(row)
+    return nil unless row['last_version'] && row['last_version']['urls']
+    row['last_version']['urls']['pdf']
+  end
+
+  def self.create_bill_associations(bill, actions, keywords)
+    actions.each do |action|
+      BillAction.create(text: action['text'],
+                        date: Date.parse(action['acted_at']),
+                        bill_id: bill.id,
+                        result: action['result'],
+                        chamber: action['chamber'])
+    end
+
+    keywords.each do |keyword|
+      tag = Tag.where(name: keyword).first_or_create
+      BillTag.create(tag_id: tag.id, bill_id: bill.id)
     end
   end
 end

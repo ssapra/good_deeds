@@ -6,6 +6,8 @@ class BillAction < ActiveRecord::Base
   scope :signed, -> { where(text: 'Signed by President.') }
   scope :enacted, -> { where('text LIKE ?', '%Became Public Law%') }
 
+  scope :recent, -> { where(updated_at: (Time.zone.now - 24.hours)..Time.zone.now) }
+
   def important?
     flag1 = result == 'pass'
     flag2 = text == 'Signed by President.'

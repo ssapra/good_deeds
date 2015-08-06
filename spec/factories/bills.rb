@@ -12,8 +12,6 @@ FactoryGirl.define do
     summary_short { Faker::Lorem.paragraph }
     url 'MyString'
     last_action_at '2015-07-29'
-    last_action_type 'MyString'
-    last_action_text { Faker::Lorem.paragraph }
     last_version_pdf 'MyString'
     legislator
   end

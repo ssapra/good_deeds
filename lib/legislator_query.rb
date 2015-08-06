@@ -11,7 +11,7 @@ class LegislatorQuery
   end
 
   def search
-    if full_search_term.count(' ')  == 0
+    if full_search_term.count(' ') == 0
       single_keyword_search
     else
       multi_keyword_search
