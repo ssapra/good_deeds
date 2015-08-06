@@ -12,7 +12,7 @@ describe UserTag, type: :model do
 
     context 'with invalid attributes' do
       before do
-        user_tag_1 =create(:user_tag, user_id: 1, tag_id: 3)
+        create(:user_tag, user_id: 1, tag_id: 3)
         @user_tag_2 = build(:user_tag, user_id: 1, tag_id: 3)
       end
 

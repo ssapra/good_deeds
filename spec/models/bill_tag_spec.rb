@@ -12,7 +12,7 @@ describe BillTag, type: :model do
 
     context 'with invalid attributes' do
       before do
-        bill_tag_1 =create(:bill_tag, bill_id: 1, tag_id: 3)
+        create(:bill_tag, bill_id: 1, tag_id: 3)
         @bill_tag_2 = build(:bill_tag, bill_id: 1, tag_id: 3)
       end
 

@@ -3,8 +3,7 @@ require 'open-uri'
 require 'date'
 
 class SunlightlabsApi
-
-  DOMAIN = "https://congress.api.sunlightfoundation.com"
+  DOMAIN = 'https://congress.api.sunlightfoundation.com'
   PER_PAGE = 50
 
   def self.get_bills

@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-describe LegislatorsController do
+describe LegislatorsController, type: :controller do
   render_views
-  context "JSON" do
+  context 'JSON' do
     describe '#index' do
       context 'searching for state' do
         before do
           create(:legislator, state: 'IL')
-          data = { format: 'json', query: 'IL' }
-          get(:index, data)
+          params = { format: 'json', query: 'IL' }
+          get(:index, params)
           @json = JSON.parse(response.body)
         end
 

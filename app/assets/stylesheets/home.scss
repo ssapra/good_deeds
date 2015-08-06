@@ -1,3 +1,22 @@
+h1,h2,h3,h4,h5,h6,p,li,span,a,input, td{
+  font-weight: 300;
+}
+
+body.background {
+  background: url("washington.jpg") no-repeat center center fixed;
+  background-size: 100% 100%;
+  z-index: 1000;
+}
+
+.quote {
+  background-color: rgba(192,192,192,0.7);
+}
+
+.home-panel {
+  background-color: rgba(192,192,192,0.7);
+  margin-top: 35%;
+}
+
 body {
   background-color: #f2f2f2;
 }

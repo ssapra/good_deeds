@@ -1,13 +1,15 @@
 class LegislatorsController < ApplicationController
+  before_action :ensure_nonempty_query, only: :index
 
   def index
-    search_params = query_params[:query].to_s.strip
-    render('index') && return if search_params.empty?
-
-    lq = LegislatorQuery.new(Legislator.all, search_params)
-    @legislators = lq.search.order(:in_office, :first_name)
+    lq = LegislatorQuery.new(Legislator.all, @search_params)
+    @legislators = lq.search.order(:first_name)
     @num_legislators = @legislators.count
     @legislators = @legislators.page(params[:page])
+    respond_to do |format|
+      format.html
+      format.json { render 'index', layout: false }
+    end
   end
 
   def show
@@ -16,7 +18,7 @@ class LegislatorsController < ApplicationController
 
   private
 
-    def query_params
-      params.permit(:query)
-    end
+  def query_params
+    params.permit(:query)
+  end
 end

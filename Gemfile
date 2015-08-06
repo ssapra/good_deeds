@@ -5,7 +5,7 @@ ruby '2.2.2'
 gem 'puma'
 gem 'pg'
 
-gem 'haml'
+gem 'haml-rails'
 
 gem 'devise'
 
@@ -22,6 +22,8 @@ gem 'pg_search'
 gem 'whenever', require: false
 
 gem 'kaminari'
+
+gem 'rubocop'
 
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'

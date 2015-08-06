@@ -50,7 +50,7 @@ Feature: Managing account settings
     And there exists tags "Hunting"
     And I visit the account page
     When I select "Hunting"
-    And I click "Save"
+    And I click "Add new tag"
     Then I see "Updated tags"
 
   @javascript
@@ -64,7 +64,7 @@ Feature: Managing account settings
     Given I am a new user with tags "Agriculture, Transportation"
     And I visit the account page
     When I select "Agriculture"
-    And I click "Save"
+    And I click "Add new tag"
     Then I see "Duplicate tag"
 
   Scenario: Add multiple tags
@@ -72,7 +72,7 @@ Feature: Managing account settings
     And there exists tags "Education, Rental"
     And I visit the account page
     When I select "Education"
-    And I click "Save"
+    And I click "Add new tag"
     And I select "Rental"
-    And I click "Save"
+    And I click "Add new tag"
     Then I have 4 tags

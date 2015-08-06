@@ -89,7 +89,7 @@ describe LegislatorQuery do
       context 'first and last name' do
         let(:legislator_query) { LegislatorQuery.new(Legislator.all, "#{@legislator_1.first_name} #{@legislator_1.last_name}") }
 
-        it "searches for legislators by full name" do
+        it 'searches for legislators by full name' do
           expect(legislator_query.search.count).to eq(1)
         end
       end
@@ -97,7 +97,7 @@ describe LegislatorQuery do
       context 'state and title' do
         let(:legislator_query) { LegislatorQuery.new(Legislator.all, 'new York senator') }
 
-        it "searches for legislators who are Senators in New York" do
+        it 'searches for legislators who are Senators in New York' do
           expect(legislator_query.search.count).to eq(1)
         end
       end
@@ -105,7 +105,7 @@ describe LegislatorQuery do
       context 'state, name, title, and party' do
         let(:legislator_query) { LegislatorQuery.new(Legislator.all, "illinois #{@legislator_2.first_name} #{@legislator_2.last_name} delegate democratic") }
 
-        it "searches for legislators who are Democratic Delegators in Illinois by name" do
+        it 'searches for legislators who are Democratic Delegators in Illinois by name' do
           expect(legislator_query.search.count).to eq(1)
         end
       end

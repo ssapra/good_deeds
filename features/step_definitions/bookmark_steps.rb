@@ -21,7 +21,7 @@ When(/^I click on the first one$/) do
 end
 
 Then(/^I have no bills$/) do
-  expect(page).to have_content('No bookmarks yet! Check out some')
+  expect(page).to have_content('No bookmarks yet!')
 end
 
 Then(/^I can not bookmark$/) do
@@ -29,6 +29,7 @@ Then(/^I can not bookmark$/) do
 end
 
 Then(/^I see (\d+) bills$/) do |num|
+  # binding.pry
   expect(page).to have_css('#results')
   expect(all('tbody tr').count).to eq(num.to_i)
 end

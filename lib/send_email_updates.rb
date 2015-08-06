@@ -13,31 +13,31 @@ class SendEmailUpdates
 
   private
 
-    def self.find_bills_with_updates
-      recent_actions = BillAction.where(updated_at: (Time.now - 24.hours)..Time.now)
+  def self.find_bills_with_updates
+    recent_actions = BillAction.where(updated_at: (Time.zone.now - 24.hours)..Time.zone.now)
 
-      bill_updates = {}
+    bill_updates = {}
 
-      recent_actions.passed_senate.each_with_object({}) do |action|
-        bill_updates[action.bill.id] ||= []
-        bill_updates[action.bill.id] <<= action.text
-      end
-
-      recent_actions.passed_house.each do |action|
-        bill_updates[action.bill.id] ||= []
-        bill_updates[action.bill.id] <<= action.text
-      end
-
-      recent_actions.signed.each do |action|
-        bill_updates[action.bill.id] ||= []
-        bill_updates[action.bill.id] <<= action.text
-      end
-
-      recent_actions.enacted.each do |action|
-        bill_updates[action.bill.id] ||= []
-        bill_updates[action.bill.id] <<= action.text
-      end
-
-      bill_updates
+    recent_actions.passed_senate.each_with_object({}) do |action|
+      bill_updates[action.bill.id] ||= []
+      bill_updates[action.bill.id] <<= action.text
     end
+
+    recent_actions.passed_house.each do |action|
+      bill_updates[action.bill.id] ||= []
+      bill_updates[action.bill.id] <<= action.text
+    end
+
+    recent_actions.signed.each do |action|
+      bill_updates[action.bill.id] ||= []
+      bill_updates[action.bill.id] <<= action.text
+    end
+
+    recent_actions.enacted.each do |action|
+      bill_updates[action.bill.id] ||= []
+      bill_updates[action.bill.id] <<= action.text
+    end
+
+    bill_updates
+  end
 end

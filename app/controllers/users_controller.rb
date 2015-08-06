@@ -1,42 +1,32 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
 
   def show
-    @user = current_user
   end
 
   def update
     @user = User.find(params[:user][:id])
 
     if @user.update_attributes(user_params)
-      changed_fields = build_change_attr_array
-      changed_fields << 'tags' unless user_params['user_tags_attributes']['0']['tag_id'].empty?
-      if changed_fields.any?
-        redirect_to @user, notice: "Updated #{changed_fields.join(', ')}"
-      else
-        redirect_to @user
-      end
+      flash.delete(:alert)
+      redirect_to @user, notice: changed_attributes_message
     else
-      flash[:alert] = @user.errors.full_messages.join(", ")
+      flash[:alert] = @user.errors.messages.values.join(', ')
       render 'show'
     end
   end
 
-  def destroy
-    UserTag.find_by_tag_id_and_user_id(params[:tag_id], current_user.id).destroy
-    @tag_id = params[:tag_id]
-  end
-
   private
 
-  def build_change_attr_array
+  def changed_attributes_message
     changed_fields = @user.previous_changes.keys
-    changed_fields.delete("updated_at")
-    changed_fields.map! { |field| field.split('_').join(' ') }
+    changed_fields.delete('updated_at')
+    changed_fields.map! { |field| field.gsub('_', ' ') }
+    return nil unless changed_fields.any?
+    "Updated #{changed_fields.join(', ')}"
   end
 
   def user_params
-    params.require(:user).permit(:id, :email, :zipcode, :political_party,
-                                 user_tags_attributes: [:tag_id, :user_id])
+    params.require(:user).permit(:id, :email, :zipcode, :political_party)
   end
 end

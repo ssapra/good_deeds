@@ -12,7 +12,7 @@ describe UserBill, type: :model do
 
     context 'with invalid attributes' do
       before do
-        user_bill_1 =create(:user_bill, bill_id: 1, user_id: 3)
+        create(:user_bill, bill_id: 1, user_id: 3)
         @user_bill_2 = build(:user_bill, bill_id: 1, user_id: 3)
       end
 

@@ -30,6 +30,5 @@ Then(/^I see (\d+) legislators$/) do |result_count|
 end
 
 Then(/^I see the legislator page for "(.*?)"$/) do |name|
-  legislator = Legislator.find_by_first_name(name)
-  expect(page).to have_content(legislator.full_title)
+  expect(page).to have_content(name)
 end

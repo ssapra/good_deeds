@@ -1,9 +1,7 @@
 .row
   .col.s10.offset-s1
     .card-panel
-      %h5
-        =@bill.title
-        =@bill.short_title if @bill.short_title
+      =bill_title(@bill)
       %table.bill_summary
         %tbody
           .row
@@ -12,16 +10,16 @@
               %td.col.s10=@bill.official_title
             %tr
               %td.col.s2 Status:
-              %td.col.s10=@bill.current_status
+              %td.col.s10=bill_current_status(@bill)
             %tr
               %td.col.s2 Introduced:
               %td.col.s10=@bill.introduced_on.strftime('%B %-d, %Y')
             %tr
               %td.col.s2 Sponsor:
               %td.col.s10
-                %p= link_to @bill.legislator.name, @bill.legislator
-                %p= @bill.legislator.verbose_summary
-                %p= @bill.legislator.full_party
+                %p= link_to name(@bill.legislator), @bill.legislator
+                %p= verbose_summary(@bill.legislator)
+                %p= full_party(@bill.legislator)
             %tr
               %td.col.s2 Summary:
               %td.col.s10= @bill.summary_short
@@ -33,37 +31,23 @@
       %table.actions
         %tbody
           -@bill.bill_actions.order(created_at: :desc).each do |action|
-            -if action.important?
-              %tr.bold
-                %td.col.s3="#{action.date.strftime('%B %-d, %Y')}:"
-                %td.col.s9="#{action.text}"
-            -else
-              %tr
-                %td.col.s3="#{action.date.strftime('%B %-d, %Y')}:"
-                %td.col.s9="#{action.text}"
-
-          %td.col.s3="#{@bill.introduced_on.strftime('%B %-d, %Y')}:"
-          %td.col.s9="Introduced to the #{@bill.chamber}"
+            =bill_action_text(action)
+          %td.bold.col.s3="#{@bill.introduced_on.strftime('%B %-d, %Y')}:"
+          %td.bold.col.s9="Introduced to the #{@bill.chamber}"
 
   .col.s3
     .card-panel
       %h4 Other
       .row
         .col.s6
-          %p=link_to "<i class='material-icons'>note_add</i>".html_safe << "Read more at GovTrack", @bill.url, target: '_'
+          %p=link_to icon('note_add') << "Read more at GovTrack", @bill.url, target: '_'
         .col.s6
-          %p=link_to "<i class='material-icons'>call</i>".html_safe << "Call #{@bill.legislator.name}", '#'
+          %p=link_to icon('call') << "Call #{name(@bill.legislator)}", '#'
       .row
         .col.s6
-          -if current_user
-            -if @bill.bookmarked_by_user?(current_user.id)
-              %p
-                %i.material-icons bookmark
-                Bookmarked!
-            -else
-              %p=link_to "<i class='material-icons'>bookmark_border</i>".html_safe << 'Add to bookmarks', bookmarks_path(bill_id: @bill.id), method: :post
+          =bookmark_options(@bill)
         .col.s6
-          %p=link_to "<i class='material-icons'>refresh</i>".html_safe << "Find another good deed", '/good_deed'
+          %p=link_to icon('refresh') << "Find another good deed", '/good_deed'
 
       .row
         .col.s12

@@ -5,25 +5,14 @@
         .col.s1
           %a{:href => "/"} Good Deed
         .col.s3
-          %span
-            Search
-            -if params[:resource] == "Legislators" || request.original_url.include?('legislators')
-              =link_to "Bills", '#', class: 'waves-effect waves-light btn query-filter disabled'
-              |
-              =link_to "Legislators", '#', class: 'waves-effect waves-light btn query-filter active'
-            -else
-              =link_to "Bills", '#', class: 'waves-effect waves-light btn query-filter active'
-              |
-              =link_to "Legislators", '#', class: 'waves-effect waves-light btn query-filter disabled'
-            for
+          %span=header_text
         .col.s5
-          =form_tag('#', method: :get, remote: true, id: 'search') do
-            =hidden_field_tag :resource, "Bills"
+          =form_tag(params[:controller] == 'legislators' ? '/legislators' : '/bills' , method: :get, id: 'search') do
             .input-field
               - if @bill
                 -placeholder_text = @bill.bill_id
               -elsif @legislator
-                -placeholder_text = @legislator.name
+                -placeholder_text = name(@legislator)
               -elsif params[:search]
                 -placeholder_text = params[:query]
               -else
@@ -31,7 +20,7 @@
               =text_field_tag :query, params[:query], placeholder: placeholder_text, required: '', type: 'search', autocomplete: 'off'
         .col.s3
           %ul.right.hide-on-med-and-down
-            -if user_signed_in?
+            -if current_user
               %li=link_to "My Account", user_path(current_user)
               %li=link_to "Bookmarks", bookmarks_path
               %li=link_to "Logout", destroy_user_session_path, method: :delete

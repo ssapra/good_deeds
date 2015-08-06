@@ -25,33 +25,15 @@ $(document).ready(function() {
         active_button.removeClass('active').addClass('disabled');
         $(e.currentTarget).removeClass('disabled').addClass('active');
         var resource = $('.query-filter.active').text();
-        if (resource == "Legislators") {
-            $('#query').attr("placeholder", "name, state, title, party, or zipcode");
-        } else {
-            $('#query').attr("placeholder", "keywords like FDA, Banking, Military spending");
-        }
-        $('#resource').val(resource);
+        $('#search').attr('action', '/' + resource.toLowerCase());
     });
 
-    $(document).on('click', '#clickable tr', function() {
+    $(document).on('click', '.clickable tr', function() {
         var url = $(this).attr("data-url");
         if(url) {
             window.location = url;
         }
     });
-
-    $('#search').submit(function(e){
-        e.preventDefault();
-        var resource = $('.query-filter.active').text();
-        $.ajax({
-            type: "GET",
-            url: "/" + resource.toLowerCase(),
-            data: $('#search').serialize(),
-            dataType: 'script'
-        });
-        return false;
-    })
-
 
     $('#tag_name').autocomplete({
         source: $('#tag_name').data('autocomplete-source'),
@@ -61,7 +43,7 @@ $(document).ready(function() {
         },
         select: function(event, ui){
             $('#tag_name').val(ui.item.label);
-            $('#user_user_tags_attributes_0_tag_id').val(ui.item.value);
+            $('#user_tag_tag_id').val(ui.item.value);
             return false;
         }
     }).autocomplete( "instance" )._renderItem = function( ul, item ) {

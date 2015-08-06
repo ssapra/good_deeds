@@ -40,8 +40,7 @@ end
 
 When(/^I select "(.*?)"$/) do |tag_name|
   tag = Tag.where(name: tag_name).first
-  hidden_field = find(:xpath, "//input[@id='user_user_tags_attributes_0_tag_id']")
-  hidden_field.set(tag.id)
+  find('#user_tag_tag_id', visible: false).set(tag.id)
 end
 
 When(/^I click "(.*?)"$/) do |text|

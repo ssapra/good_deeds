@@ -8,7 +8,7 @@
         and then check out some
         =link_to "bills", '/good_deed'
     -else
-      %table.bordered.hoverable.responsive-table#results#clickable
+      %table.bordered.clickable.hoverable.responsive-table#results
         %thead
           .row
             %td.col.s2 Last Action
@@ -19,13 +19,13 @@
             -@bills.each do |bill|
               %tr{'data-url' => "/bills/#{bill.bill_id}"}
                 %td.col.s2=bill.last_action_at.strftime('%b %-d, %Y')
-                %td.col.s3=bill.current_status
+                %td.col.s3=bill_current_status(bill)
                 %td.col.s7
                   %h6.bill_title
                     ="#{bill.title} - "
                     =bill.short_title if bill.short_title
                     =bill.official_title unless bill.short_title
                   %p.summary=bill.summary_short
-                %td.remove=link_to '<i class="material-icons">close</i>'.html_safe, bookmarks_path(bill_id: bill.id), method: :delete
+                %td.remove=link_to icon('close'), bookmarks_path(bill_id: bill.id), method: :delete
 
       = paginate @bills

@@ -7,6 +7,10 @@ class BillAction < ActiveRecord::Base
   scope :enacted, -> { where('text LIKE ?', '%Became Public Law%') }
 
   def important?
-    result == 'pass' || text == 'Signed by President.' || text.include?('Became Public Law')
+    flag1 = result == 'pass'
+    flag2 = text == 'Signed by President.'
+    flag3 = text.include?('Became Public Law')
+
+    flag1 || flag2 || flag3
   end
 end

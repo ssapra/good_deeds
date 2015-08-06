@@ -2,13 +2,13 @@ require 'rails_helper'
 
 describe BillsController do
   render_views
-  context "JSON" do
+  context 'JSON' do
     describe '#index' do
       context 'searching for bill content' do
         before do
           create(:bill, short_title: 'American Super Computing Leadership Act')
-          data = { format: 'json', query: 'american leadership' }
-          get(:index, data)
+          params = { format: 'json', query: 'american leadership' }
+          get(:index, params)
           @json = JSON.parse(response.body)
         end
 

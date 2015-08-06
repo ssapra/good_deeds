@@ -1,5 +1,5 @@
 FactoryGirl.define do
   factory :tag do
-    name "MyTag"
+    name { Faker::Commerce.department }
   end
 end

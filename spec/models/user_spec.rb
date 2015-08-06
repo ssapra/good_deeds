@@ -21,7 +21,7 @@ describe User, type: :model do
 
       context 'with duplicate email' do
         before do
-          user_1 = create(:user, email: 'test@test.com')
+          create(:user, email: 'test@test.com')
           @user_2 = build(:user, email: 'test@test.com')
         end
 
