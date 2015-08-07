@@ -1,28 +1,22 @@
 require 'rails_helper'
 
-describe 'SendEmailUpdates' do
+describe SendEmailUpdates do
   describe '.send_emails' do
     before do
-      ActionMailer::Base.delivery_method = :test
-      ActionMailer::Base.perform_deliveries = true
-      ActionMailer::Base.deliveries = []
-      @action_1 = create(:bill_action, text: 'Signed by President.', date: 10.minutes.ago)
-      @action_2 = create(:bill_action, text: 'Became Public Law No. 1', date: 10.hours.ago)
-      @action_3 = create(:bill_action, text: 'Nothing happens in Congress', date: 24.days.ago)
-      @user_bill_1 = create(:user_bill, bill_id: @action_1.bill_id)
-      @user = @user_bill_1.user
-      @user_bill_2 = create(:user_bill, bill_id: @action_2.bill_id, user_id: @user.id)
-      @user_bill_3 = create(:user_bill, bill_id: @action_3.bill_id)
+      action_1 = create(:bill_action, text: 'Signed by President.', date: 10.minutes.ago)
+      action_2 = create(:bill_action, text: 'Became Public Law No. 1', date: 10.hours.ago)
+      action_3 = create(:bill_action, text: 'Nothing happens in Congress', date: 24.days.ago)
+      user_bill = create(:user_bill, bill_id: action_1.bill_id)
+      create(:user_bill, bill_id: action_2.bill_id, user_id: user_bill.user.id)
+      create(:user_bill, bill_id: action_3.bill_id)
     end
 
     after do
       ActionMailer::Base.deliveries.clear
     end
 
-    it 'sends one user 1 email with 2 bill updates' do
-      SendEmailUpdates.send_emails
-      expect(ActionMailer::Base.deliveries.count).to eq(1)
-      expect(ActionMailer::Base.deliveries.first.to).to contain_exactly(@user.email)
+    it "sends an email to 1 user" do
+      expect { SendEmailUpdates.send_emails }.to change { ActionMailer::Base.deliveries.count }.by(1)
     end
   end
 

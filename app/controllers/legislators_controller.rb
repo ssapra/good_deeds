@@ -14,6 +14,10 @@ class LegislatorsController < ApplicationController
 
   def show
     @legislator = Legislator.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.json { render 'show', layout: false }
+    end
   end
 
   private

@@ -25,6 +25,10 @@ class BillsController < ApplicationController
     @legislator = @bill.legislator
     @bill_actions = @bill.bill_actions
     @important_actions = @bill_actions.important
+    respond_to do |format|
+      format.html
+      format.json { render 'show', layout: false }
+    end
   end
 
   private
