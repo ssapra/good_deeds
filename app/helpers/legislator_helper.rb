@@ -23,16 +23,19 @@ module LegislatorHelper
   end
 
   def bioguide_url
+    return '#' unless @legislator.bioguide_id
     'http://bioguide.congress.gov/scripts/biodisplay.pl?' \
     "index=#{@legislator.bioguide_id}"
   end
 
   def votesmart_url
+    return '#' unless @legislator.votesmart_id
     'http://votesmart.org/candidate/' \
     "#{@legislator.votesmart_id}/#{@legislator.first_name}-#{@legislator.last_name}"
   end
 
   def age
+    return 'n/a' unless @legislator.birthday
     dob = Date.parse(@legislator.birthday)
     now = Time.zone.now.utc.to_date
     num_years = now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
