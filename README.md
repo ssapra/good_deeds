@@ -2,18 +2,6 @@
 
 Congress desperately needs some good news. As of writing approval rates [aren't just low](http://www.gallup.com/poll/171710/public-faith-congress-falls-again-hits-historic-low.aspx), they're the lowest approval ratings Gallup has ever seen for anything they measure, ever.
 
-# Setup
-```
-git clone https://github.com/ssapra/good_deeds.git
-cd good_deeds
-bundle install
-rake db:create
-rake db:migrate
-rake load:districts
-rake db:seed
-rails server
-```
-
 # Sunlight Foundation API
 
 In order for the Sunlight Foundation to grant access to their API, you need to register [here](https://sunlightfoundation.com/api/accounts/register/). Once you obtain a key, use the [Figaro](https://github.com/laserlemon/figaro) gem to create the config/applicaton.yml file to store your environment variable.
@@ -25,6 +13,18 @@ bundle exec figaro install
 In your config/application.yml,
 ```yml
 SUNLIGHTLABS_APIKEY: 'my-api-key'
+```
+
+# Setup
+```
+git clone https://github.com/ssapra/good_deeds.git
+cd good_deeds
+bundle install
+rake db:create
+rake db:migrate
+rake load:districts
+rake db:seed
+rails server
 ```
 
 ### My Assignment
