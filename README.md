@@ -14,6 +14,19 @@ rake db:seed
 rails server
 ```
 
+# Sunlight Foundation API
+
+In order for the Sunlight Foundation to grant access to their API, you need to register [here](https://sunlightfoundation.com/api/accounts/register/). Once you obtain a key, use the [Figaro](https://github.com/laserlemon/figaro) gem to create the config/applicaton.yml file to store your environment variable.
+
+```bash
+bundle exec figaro install
+```
+
+In your config/application.yml,
+```yml
+SUNLIGHTLABS_APIKEY: 'my-api-key'
+```
+
 ### My Assignment
 
 Build a Rails app that shows off some of the achievements of the current Congress as they happen. You may have to dig deep (they don't pass many laws lately), but there's got to be something. They just reduced their toilet paper budget again, 40% of bills get some kind of bi-partisan support and Colleen Hanabusa hasn't missed a day of attendance in her entire Congressional career.
