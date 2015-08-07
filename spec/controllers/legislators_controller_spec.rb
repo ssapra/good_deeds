@@ -15,11 +15,11 @@ describe LegislatorsController, type: :controller do
         before do
           params = default_params.merge(query: 'IL')
           get(:index, params)
-          @json = JSON.parse(response.body)
         end
 
         it 'contains one legislator' do
-          expect(@json['legislators'].length).to eq(1)
+          expect(response).to be_success
+          expect(json['legislators'].length).to eq(1)
         end
       end
 
@@ -27,11 +27,11 @@ describe LegislatorsController, type: :controller do
         before do
           params = default_params.merge(query: 'Rep')
           get(:index, params)
-          @json = JSON.parse(response.body)
         end
 
         it 'contains two legislators' do
-          expect(@json['legislators'].length).to eq(2)
+          expect(response).to be_success
+          expect(json['legislators'].length).to eq(2)
         end
       end
     end
@@ -42,19 +42,20 @@ describe LegislatorsController, type: :controller do
         create(:bill, legislator_id: @legislator.id)
         params = default_params.merge(id: @legislator.id)
         get(:show, params)
-        @json = JSON.parse(response.body)
+        json
       end
 
       it 'contains basic legislator attributes' do
-        expect(@json['first_name']).to eq(@legislator.first_name)
-        expect(@json['last_name']).to eq(@legislator.last_name)
-        expect(@json['party']).to eq(@legislator.party)
-        expect(@json['title']).to eq(@legislator.title)
-        expect(@json['state']).to eq(@legislator.state)
+        expect(response).to be_success
+        expect(json['first_name']).to eq(@legislator.first_name)
+        expect(json['last_name']).to eq(@legislator.last_name)
+        expect(json['party']).to eq(@legislator.party)
+        expect(json['title']).to eq(@legislator.title)
+        expect(json['state']).to eq(@legislator.state)
       end
 
       it 'contains one sponsored bill' do
-        expect(@json['sponsored'].length).to eq(1)
+        expect(json['sponsored'].length).to eq(1)
       end
     end
   end

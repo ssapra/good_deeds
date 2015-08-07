@@ -35,6 +35,10 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 
+  Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+
+  config.include Requests::JsonHelpers, type: :controller
+
   config.include FactoryGirl::Syntax::Methods
 
   # RSpec Rails can automatically mix in different behaviours to your tests
