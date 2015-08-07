@@ -212,7 +212,7 @@ describe BillHelper, type: :helper do
       before do
         @bill = create(:bill)
         user_id = 1
-        user = double("current_user", id: 1)
+        user = double('current_user', id: user_id)
         allow(helper).to(receive(:current_user).and_return(user))
         create(:user_bill, user_id: user_id, bill_id: @bill.id)
       end
@@ -226,7 +226,7 @@ describe BillHelper, type: :helper do
       before do
         @bill = create(:bill)
         user_id = 1
-        user = double("current_user", id: 1)
+        user = double('current_user', id: user_id)
         allow(helper).to(receive(:current_user).and_return(user))
       end
 

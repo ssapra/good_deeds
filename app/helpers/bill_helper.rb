@@ -25,16 +25,21 @@ module BillHelper
   end
 
   def determine_bill_state(house_action, senate_action)
+    senate_bill_passed_senate_and_house = (@bill.bill_type == 's' && senate_action && house_action)
+    house_bill_only_passed_house = (%w(hr hconres).include?(@bill.bill_type) && house_action && senate_action.nil?)
+    house_bill_passed_house_and_senate = (@bill.bill_type == 'hr' && senate_action && house_action)
+    senate_bill_only_passed_senate = (%w(s sconres).include?(@bill.bill_type) && senate_action && house_action.nil?)
+    no_houses_passed = house_action.nil? && senate_action.nil?
+
     if (@bill.bill_type == 'sres' && senate_action) || (@bill.bill_type == 'hres' && house_action)
       'Agreed To Simple Resolution'
     elsif %w(sconres hconres).include?(@bill.bill_type) && house_action && senate_action
       'Agreed To Concurrent Resolution'
-    elsif (%w(hr hconres).include?(@bill.bill_type) && house_action && senate_action.nil?) || (@bill.bill_type == 's' && senate_action && house_action)
-      (@bill.bill_type == 's' && house_action) || (@bill.bill_type == 'hr' && senate_action.nil?)
+    elsif senate_bill_passed_senate_and_house || house_bill_only_passed_house
       "Passed House on #{house_action.date.strftime('%b %-d, %Y')}"
-    elsif (%w(s sconres).include?(@bill.bill_type) && senate_action && house_action.nil?) || (@bill.bill_type == 'hr' && senate_action && house_action)
+    elsif senate_bill_only_passed_senate || house_bill_passed_house_and_senate
       "Passed Senate on #{senate_action.date.strftime('%b %-d, %Y')}"
-    elsif house_action.nil? && senate_action.nil?
+    elsif no_houses_passed
       "Introduced to #{@bill.chamber.capitalize}"
     end
   end
@@ -57,7 +62,8 @@ module BillHelper
 
   def allow_bookmark_action
     content_tag(:p) do
-      link_to icon('bookmark_border') << 'Add to bookmarks', bookmarks_path(bill_id: @bill.id), method: :post
+      link_text = icon('bookmark_border') << 'Add to bookmarks'
+      link_to(link_text, bookmarks_path(bill_id: @bill.id), method: :post)
     end
   end
 

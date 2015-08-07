@@ -8,7 +8,7 @@ describe BillsController do
       context 'searching for bill content' do
         before do
           create(:bill, short_title: 'American Super Computing Leadership Act')
-          params = default_params.merge({ query: 'american leadership' })
+          params = default_params.merge(query: 'american leadership')
           get(:index, params)
           @json = JSON.parse(response.body)
         end
@@ -22,9 +22,9 @@ describe BillsController do
     describe '#show' do
       before do
         @bill = create(:bill)
-        create(:bill_action, bill_id: @bill.id, result: 'pass', chamber: 'senate')
-        create(:bill_action, bill_id: @bill.id)
-        params = default_params.merge({ bill_id: @bill.bill_id })
+        create(:bill_action, bill: @bill, result: 'pass', chamber: 'senate')
+        create(:bill_action, bill: @bill)
+        params = default_params.merge(bill_id: @bill.bill_id)
         get(:show, params)
         @json = JSON.parse(response.body)
       end

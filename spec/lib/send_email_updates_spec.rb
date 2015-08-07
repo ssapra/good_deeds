@@ -15,7 +15,7 @@ describe SendEmailUpdates do
       ActionMailer::Base.deliveries.clear
     end
 
-    it "sends an email to 1 user" do
+    it 'sends an email to one user' do
       expect { SendEmailUpdates.send_emails }.to change { ActionMailer::Base.deliveries.count }.by(1)
     end
   end
@@ -25,13 +25,13 @@ describe SendEmailUpdates do
       @bill_1 = create(:bill)
       @bill_2 = create(:bill)
       @bill_3 = create(:bill)
-      @action_1 = create(:bill_action, bill_id: @bill_1.id, text: 'Signed by President.', date: 2.days.ago)
-      @action_2 = create(:bill_action, bill_id: @bill_1.id, text: 'Became Public Law No. 1', date: 48.hours.ago)
-      @action_3 = create(:bill_action, bill_id: @bill_1.id, text: 'Nothing happens in Congress', date: 5.minutes.ago)
-      @action_4 = create(:bill_action, bill_id: @bill_2.id, result: 'pass', chamber: 'senate', date: 5.hours.ago)
-      @action_5 = create(:bill_action, bill_id: @bill_2.id, result: 'pass', chamber: 'house', date: 1.month.ago)
-      @action_6 = create(:bill_action, bill_id: @bill_3.id, result: 'pass', chamber: 'house', date: Time.zone.now.utc - 23.hours)
-      @action_7 = create(:bill_action, bill_id: @bill_3.id, result: 'pass', chamber: 'other', date: 1.day.from_now)
+      @action_1 = create(:bill_action, bill: @bill_1, text: 'Signed by President.', date: 2.days.ago)
+      @action_2 = create(:bill_action, bill: @bill_1, text: 'Became Public Law No. 1', date: 48.hours.ago)
+      @action_3 = create(:bill_action, bill: @bill_1, text: 'Nothing happens in Congress', date: 5.minutes.ago)
+      @action_4 = create(:bill_action, bill: @bill_2, result: 'pass', chamber: 'senate', date: 5.hours.ago)
+      @action_5 = create(:bill_action, bill: @bill_2, result: 'pass', chamber: 'house', date: 1.month.ago)
+      @action_6 = create(:bill_action, bill: @bill_3, result: 'pass', chamber: 'house', date: Time.zone.now.utc - 23.hours)
+      @action_7 = create(:bill_action, bill: @bill_3, result: 'pass', chamber: 'other', date: 1.day.from_now)
     end
 
     it 'contains certain bill ids with their actions' do

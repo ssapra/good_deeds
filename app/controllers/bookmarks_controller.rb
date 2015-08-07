@@ -1,6 +1,6 @@
 class BookmarksController < ApplicationController
   before_action :authenticate_user!
-  
+
   def create
     bill_id = bookmark_params[:bill_id]
     bill = Bill.find(bill_id)

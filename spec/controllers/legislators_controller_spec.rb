@@ -13,7 +13,7 @@ describe LegislatorsController, type: :controller do
 
       context 'searching by state' do
         before do
-          params = default_params.merge({ query: 'IL' })
+          params = default_params.merge(query: 'IL')
           get(:index, params)
           @json = JSON.parse(response.body)
         end
@@ -25,7 +25,7 @@ describe LegislatorsController, type: :controller do
 
       context 'searching by title' do
         before do
-          params = default_params.merge({ query: 'Rep' })
+          params = default_params.merge(query: 'Rep')
           get(:index, params)
           @json = JSON.parse(response.body)
         end
@@ -40,7 +40,7 @@ describe LegislatorsController, type: :controller do
       before do
         @legislator = create(:legislator, state: 'IL', title: 'Rep')
         create(:bill, legislator_id: @legislator.id)
-        params = default_params.merge({ id: @legislator.id })
+        params = default_params.merge(id: @legislator.id)
         get(:show, params)
         @json = JSON.parse(response.body)
       end
