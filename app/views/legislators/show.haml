@@ -39,10 +39,10 @@
     .card-panel
       -if @legislator.bills.count == 0
         %h4 No sponsored bills
-        %h5="Give the #{full_title} a call and figure out what's on his/her plate"
+        %h5="Give the #{legislator_full_title} a call and figure out what's on his/her plate"
       -else
         %h4="Sponsored #{pluralize(@legislator.bills.count, 'bill')}"
-        %table.responsive-table.bill_summary#clickable
+        %table.responsive-table.clickable.bill_summary#results
           %thead
             %tr
               %td.col.s2 Last Update

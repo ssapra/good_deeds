@@ -2,15 +2,14 @@ module LegislatorHelper
   def verbose_summary
     land = STATES.key(@legislator.state)
     title = @legislator.title
-    full_title = full_title
     district = @legislator.district
     if title == 'Del' || title == 'Com' || district == '0'
-      "#{full_title} for #{land} At Large"
+      "#{legislator_full_title} for #{land} At Large"
     elsif title == 'Rep' && district != '0'
-      "#{full_title} for #{land}'s #{district.to_i.ordinalize} " \
+      "#{legislator_full_title} for #{land}'s #{district.to_i.ordinalize} " \
       'congressional district'
     else
-      "#{full_title} from #{land}"
+      "#{legislator_full_title} from #{land}"
     end
   end
 
@@ -40,7 +39,7 @@ module LegislatorHelper
     "#{num_years} years old"
   end
 
-  def full_title
+  def legislator_full_title
     title_hash = { 'Sen' => 'Senator', 'Rep' => 'Representative',
                    'Del' => 'Delegate', 'Com' => 'Commissioner' }
     title_hash[@legislator.title]

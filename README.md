@@ -2,7 +2,19 @@
 
 Congress desperately needs some good news. As of writing approval rates [aren't just low](http://www.gallup.com/poll/171710/public-faith-congress-falls-again-hits-historic-low.aspx), they're the lowest approval ratings Gallup has ever seen for anything they measure, ever.
 
-### Your Assignment
+# Setup
+```
+git clone https://github.com/ssapra/good_deeds.git
+cd good_deeds
+bundle install
+rake db:create
+rake db:migrate
+rake load:districts
+rake db:seed
+rails server
+```
+
+### My Assignment
 
 Build a Rails app that shows off some of the achievements of the current Congress as they happen. You may have to dig deep (they don't pass many laws lately), but there's got to be something. They just reduced their toilet paper budget again, 40% of bills get some kind of bi-partisan support and Colleen Hanabusa hasn't missed a day of attendance in her entire Congressional career.
 

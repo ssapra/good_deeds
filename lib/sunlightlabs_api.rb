@@ -5,7 +5,7 @@ module SunlightlabsApi
   ENDPOINT = 'https://congress.api.sunlightfoundation.com'
   PER_PAGE = 50
   BILL_FIELDS = %w(actions bill_id bill_type chamber congress cosponsors_count
-                   introduced_on keywords last_action.at last_version.urls.pdf
+                   introduced_on keywords last_action.acted_at last_version.urls.pdf
                    official_title popular_title summary_short short_title
                    sponsor.first_name sponsor.last_name sponsor.title
                    urls.govtrack)
