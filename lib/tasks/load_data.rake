@@ -9,3 +9,9 @@ namespace :load do
     end
   end
 end
+
+desc 'Update bills from API'
+task :update_bills => :environment do
+  include SunlightlabsApi
+  get_bills_from_api
+end

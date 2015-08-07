@@ -30,7 +30,7 @@ module SunlightlabsApi
   def get_legislators_from_api
     url = "#{ENDPOINT}/legislators?per_page=all&apikey=#{ENV['SUNLIGHTLABS_APIKEY']}"
     legislators = JSON.parse(open(url).read)['results']
-    direct_attributes = %w(bioguide_id birthday contact_form district
+    direct_attributes = %w(bioguide_id birthday contact_form district oc_email
                            facebook_id fax first_name gender fax in_office
                            last_name leadership_role middle_name name_suffix
                            nickname office party phone state term_end term_start

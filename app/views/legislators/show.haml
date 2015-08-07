@@ -5,6 +5,7 @@
     .card-panel
       %h4=legislator_name
       =image_tag "https://theunitedstates.io/images/congress/225x275/#{@legislator.bioguide_id}.jpg"
+      %p=full_party
       %p=full_leadership_role
       %p=verbose_summary
       %p=link_to @legislator.website, @legislator.website, target: '_'
@@ -29,6 +30,7 @@
         .col.s12
           %p="Phone: #{@legislator.phone}"
           %p="Fax: #{@legislator.fax}"
+          %p="Email: #{@legislator.oc_email}"
           %p=link_to "Contact form", @legislator.contact_form
 
       .row

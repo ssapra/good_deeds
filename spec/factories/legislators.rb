@@ -23,5 +23,6 @@ FactoryGirl.define do
     birthday { 35.years.ago }
     term_start '2015-01-03'
     term_end '2017-01-06'
+    oc_email 'email@opencongress.org'
   end
 end
