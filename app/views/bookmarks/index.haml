@@ -4,7 +4,7 @@
     -if @bills.empty?
       %h4
         No bookmarks yet! Fill out your zipcode/political interests at your
-        =link_to "Account", '/account'
+        =link_to "Account", current_user
         and then check out some
         =link_to "bills", '/good_deed'
     -else

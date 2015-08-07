@@ -5,12 +5,12 @@ module SunlightlabsApi
   ENDPOINT = 'https://congress.api.sunlightfoundation.com'
   PER_PAGE = 50
   BILL_FIELDS = %w(actions bill_id bill_type chamber congress cosponsors_count
-                   introduced_on keywords last_action.acted_at last_version.urls.pdf
-                   official_title popular_title summary_short short_title
-                   sponsor.first_name sponsor.last_name sponsor.title
-                   urls.govtrack)
+                   introduced_on keywords last_action.acted_at
+                   last_version.urls.pdf official_title popular_title
+                   summary_short short_title sponsor.first_name
+                   sponsor.last_name sponsor.title urls.govtrack)
 
-  def self.bills
+  def get_bills_from_api
     page = 1
     other_parameters = 'history.active=true&order=last_action_at&' \
                        'introduced_on__gt="2015-01-01"'
@@ -27,7 +27,7 @@ module SunlightlabsApi
     end
   end
 
-  def self.legislators
+  def get_legislators_from_api
     url = "#{ENDPOINT}/legislators?per_page=all&apikey=#{ENV['SUNLIGHTLABS_APIKEY']}"
     legislators = JSON.parse(open(url).read)['results']
     direct_attributes = %w(bioguide_id birthday contact_form district
@@ -42,19 +42,21 @@ module SunlightlabsApi
     end
   end
 
-  def self.parse_bill_results(results)
+  private
+
+  def parse_bill_results(results)
     direct_attributes = %w(bill_id bill_type chamber congress cosponsors_count
                            introduced_on official_title popular_title
                            short_title summary_short)
 
     results.each do |row|
-      values = direct_attributes.map { |attribute| row.fetch(attribute) }
+      values = direct_attributes.map { |attribute| row.fetch(attribute, nil) }
       bill_attributes = Hash[direct_attributes.zip(values)]
       bill_attributes['legislator_id'] = handle_sponsor(row)
       bill_attributes['url'] = row['urls']['govtrack'] if row['urls']
       bill_attributes['last_action_at'] = handle_last_action_at(row)
 
-      bill_attributes['introduced_on'] = Date.parse(bill_attributes['introduced_on'])
+      bill_attributes['introduced_on'] = handle_introduced_on(bill_attributes)
       bill_attributes['last_version_pdf'] = handle_last_version_pdf(row)
 
       bill = Bill.where(bill_attributes).first_or_create
@@ -62,12 +64,17 @@ module SunlightlabsApi
     end
   end
 
-  def self.handle_last_action_at(row)
+  def handle_introduced_on(bill_attributes)
+    return nil unless bill_attributes['introduced_on']
+    Date.parse(bill_attributes['introduced_on'])
+  end
+
+  def handle_last_action_at(row)
     return nil unless row['last_action'] && row['last_action']['acted_at']
     Date.parse(row['last_action']['acted_at'])
   end
 
-  def self.handle_sponsor(row)
+  def handle_sponsor(row)
     return nil unless row['sponsor']
     sponsor = row['sponsor']
     legislator = Legislator.where(first_name: sponsor['first_name'],
@@ -77,12 +84,13 @@ module SunlightlabsApi
     legislator.id
   end
 
-  def self.handle_last_version_pdf(row)
+  def handle_last_version_pdf(row)
     return nil unless row['last_version'] && row['last_version']['urls']
     row['last_version']['urls']['pdf']
   end
 
-  def self.create_bill_associations(bill, actions, keywords)
+  def create_bill_associations(bill, actions, keywords)
+    return unless actions
     actions.each do |action|
       BillAction.create(text: action['text'],
                         date: Date.parse(action['acted_at']),
@@ -91,6 +99,7 @@ module SunlightlabsApi
                         chamber: action['chamber'])
     end
 
+    return unless keywords
     keywords.each do |keyword|
       tag = Tag.where(name: keyword).first_or_create
       BillTag.create(tag_id: tag.id, bill_id: bill.id)

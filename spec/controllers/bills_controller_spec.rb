@@ -13,6 +13,7 @@ describe BillsController, type: :controller do
         end
 
         it 'contains one bill' do
+          expect(response).to be_success
           expect(json['bills'].length).to eq(1)
         end
       end
@@ -28,6 +29,7 @@ describe BillsController, type: :controller do
       end
 
       it 'contains basic bill attributes' do
+        expect(response).to be_success
         expect(json['bill_type']).to eq(@bill.bill_type)
         expect(json['bill_id']).to eq(@bill.bill_id)
         expect(json['chamber']).to eq(@bill.chamber)

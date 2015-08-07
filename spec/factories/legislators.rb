@@ -21,5 +21,7 @@ FactoryGirl.define do
     youtube_id 'MyString'
     facebook_id 'MyString'
     birthday { 35.years.ago }
+    term_start '2015-01-03'
+    term_end '2017-01-06'
   end
 end

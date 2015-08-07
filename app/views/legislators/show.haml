@@ -9,6 +9,7 @@
       %p=verbose_summary
       %p=link_to @legislator.website, @legislator.website, target: '_'
       %p=age
+      %p="Term: #{Date.parse(@legislator.term_start).strftime('%B %-d, %Y')} - #{Date.parse(@legislator.term_end).strftime('%B %-d, %Y')}"
     .card-panel
       %h4 Read More
       .row
