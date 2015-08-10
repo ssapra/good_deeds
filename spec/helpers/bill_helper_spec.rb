@@ -46,7 +46,18 @@ describe BillHelper, type: :helper do
       end
 
       it 'returns the signed text' do
-        expect(helper.bill_current_status).to eq('Signed by President')
+        expect(helper.bill_current_status).to eq('Signed by President.')
+      end
+    end
+
+    context 'vetoed bill' do
+      before do
+        @bill = create(:bill)
+        create(:bill_action, bill_id: @bill.id, text: 'Vetoed by President.')
+      end
+
+      it 'returns the vetoed text' do
+        expect(helper.bill_current_status).to eq('Vetoed by President.')
       end
     end
 

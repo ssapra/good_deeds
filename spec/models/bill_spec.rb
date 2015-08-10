@@ -25,12 +25,12 @@ describe Bill, type: :model do
   describe '#type_and_num' do
     let(:bill_1) { build(:bill, bill_id: 'hr123-114', bill_type: 'hr') }
     let(:bill_2) { build(:bill, bill_id: 'sconres91231-114', bill_type: 'sconres') }
-    let(:bill_3) { build(:bill, bill_id: 'hres7-114', bill_type: 'hres') }
+    let(:bill_3) { build(:bill, bill_id: 'hjres7-114', bill_type: 'hjres') }
 
     it 'creates a better bill title' do
       expect(bill_1.type_and_num).to eq('H.R. 123')
-      expect(bill_2.type_and_num).to eq('S.Con.Res 91231')
-      expect(bill_3.type_and_num).to eq('H.Res. 7')
+      expect(bill_2.type_and_num).to eq('S.Con.Res. 91231')
+      expect(bill_3.type_and_num).to eq('H.J.Res. 7')
     end
   end
 end

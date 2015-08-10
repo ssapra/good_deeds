@@ -19,6 +19,8 @@ gem 'materialize-sass'
 
 gem 'pg_search'
 
+gem 'pry-rails', group: :development
+
 gem 'whenever', require: false
 
 gem 'kaminari'

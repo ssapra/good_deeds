@@ -10,14 +10,14 @@ module BillHelper
 
   def bill_current_status
     actions = @bill.bill_actions
-    bill_status = ''
-    if actions.enacted.first
-      bill_status = actions.order(:created_at).last.text
-    elsif actions.signed.first
-      bill_status = 'Signed by President'
-    end
 
-    return bill_status if !bill_status.empty?
+    if (enacted_action = actions.enacted.first)
+      return enacted_action.text
+    elsif (signed_action = actions.signed.first)
+      return signed_action.text
+    elsif (vetoed_action = actions.vetoed.first)
+      return vetoed_action.text
+    end
 
     house_action = actions.passed_house.first
     senate_action = actions.passed_senate.first

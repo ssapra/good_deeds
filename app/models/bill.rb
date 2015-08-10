@@ -14,9 +14,9 @@ class Bill < ActiveRecord::Base
     bill_num = /[a-z]*(\d*)-\d*/.match(bill_id)[1]
 
     bill_types = { 'hr' => 'H.R.', 's' => 'S.', 'hres' => 'H.Res.',
-                   'sres' => 'S.Res.', 'sjres' => 'S.J.Res',
-                   'hjres' => 'H.J.Res', 'hconres' => 'H.Con.Res',
-                   'sconres' => 'S.Con.Res' }
+                   'sres' => 'S.Res.', 'sjres' => 'S.J.Res.',
+                   'hjres' => 'H.J.Res.', 'hconres' => 'H.Con.Res.',
+                   'sconres' => 'S.Con.Res.' }
 
     bill_type_abbreviation = bill_types[bill_type]
     "#{bill_type_abbreviation} #{bill_num}"
