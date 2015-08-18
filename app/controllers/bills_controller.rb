@@ -17,7 +17,7 @@ class BillsController < ApplicationController
     tag_bills = current_user.tags.map(&:bills)
     legislator_bills = current_user.legislators_by_zipcode.map(&:bills)
     bill = (tag_bills + legislator_bills).flatten.sample
-    redirect_to "/bills/#{bill.bill_id}"
+    redirect_to bill_path(bill)
   end
 
   def show
@@ -34,6 +34,6 @@ class BillsController < ApplicationController
   private
 
   def find_random_bill
-    redirect_to "/bills/#{Bill.all.sample.bill_id}"
+    redirect_to bill_path(Bill.all.sample)
   end
 end

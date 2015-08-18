@@ -24,6 +24,6 @@
                 %td.col.s7
                   =bill_title
                   %p.summary=bill.summary_short
-                %td.remove=link_to icon('close'), bookmarks_path(bill_id: bill.id), method: :delete
+                %td.remove=link_to icon('close'), bookmarks_path(bookmark: { bill_id: bill.bill_id }), method: :delete
 
       = paginate @bills

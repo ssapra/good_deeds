@@ -21,4 +21,8 @@ class Bill < ActiveRecord::Base
     bill_type_abbreviation = bill_types[bill_type]
     "#{bill_type_abbreviation} #{bill_num}"
   end
+
+  def to_param
+    bill_id
+  end
 end

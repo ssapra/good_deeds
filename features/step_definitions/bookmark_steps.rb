@@ -3,7 +3,7 @@ Given(/^I am new user with (\d+) bookmarks$/) do |num|
   fill_sign_in_form(@user.email, 'password')
   num.to_i.times do
     bill = create(:bill)
-    create(:user_bill, bill_id: bill.id, user_id: @user.id)
+    create(:bookmark, bill_id: bill.id, user_id: @user.id)
   end
 end
 
@@ -29,7 +29,6 @@ Then(/^I can not bookmark$/) do
 end
 
 Then(/^I see (\d+) bills$/) do |num|
-  # binding.pry
   expect(page).to have_css('#results')
   expect(all('tbody tr').count).to eq(num.to_i)
 end
