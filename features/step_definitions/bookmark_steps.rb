@@ -7,6 +7,10 @@ Given(/^I am new user with (\d+) bookmarks$/) do |num|
   end
 end
 
+Given(/^I visit the bookmarks page$/) do
+  visit('/bookmarks')
+end
+
 Given(/^I visit a bill$/) do
   bill = create(:bill)
   visit("/bills/#{bill.bill_id}")
@@ -14,6 +18,10 @@ end
 
 When(/^I remove the first bookmark$/) do
   find(".remove a", match: :first).click
+end
+
+When(/^I bookmark the bill$/) do
+  click_on('Add to bookmarks')
 end
 
 When(/^I click on the first one$/) do
@@ -28,9 +36,14 @@ Then(/^I can not bookmark$/) do
   expect(page).to_not have_content('Add to bookmarks')
 end
 
-Then(/^I see (\d+) bills$/) do |num|
+Then(/^I should see (\d+) bills$/) do |num|
   expect(page).to have_css('#results')
   expect(all('tbody tr').count).to eq(num.to_i)
+end
+
+Then(/^I should see 1 bill$/) do
+  expect(page).to have_css('#results')
+  expect(all('tbody tr').count).to eq(1)
 end
 
 Then(/^I see the bill page for "(.*?)"$/) do |title|
@@ -39,5 +52,5 @@ Then(/^I see the bill page for "(.*?)"$/) do |title|
 end
 
 Then(/^I see the bill page$/) do
-  expect(page).to have_content("Sponsored by")
+  expect(page).to have_content("Sponsor")
 end
