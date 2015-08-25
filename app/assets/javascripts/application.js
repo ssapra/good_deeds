@@ -14,4 +14,6 @@
 //= require jquery-ui
 //= require jquery_ujs
 //= require materialize-sprockets
-//= require_tree .
+//= require animation
+//= require autocomplete
+//= require material_design
