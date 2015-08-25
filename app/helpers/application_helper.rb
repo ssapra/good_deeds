@@ -13,8 +13,9 @@ module ApplicationHelper
   private
 
   def set_classes
-    active_class = 'waves-effect waves-light btn query-filter red active'
-    disabled_class = 'waves-effect waves-light btn query-filter red disabled'
+    classes = 'waves-effect waves-light btn query-filter red'
+    active_class = "#{classes} active"
+    disabled_class = "#{classes} disabled"
 
     if params[:controller] == 'legislators'
       bill_class = disabled_class
