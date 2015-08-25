@@ -22,7 +22,6 @@ class User < ActiveRecord::Base
 
   def legislators_by_zipcode
     return [] unless zipcode
-    lq = LegislatorQuery.new(Legislator.all, zipcode)
-    lq.search
+    LegislatorQuery.new(Legislator.all, zipcode).execute
   end
 end
