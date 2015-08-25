@@ -5,6 +5,7 @@ $(document).ready(function() {
         $(e.currentTarget).removeClass('disabled').addClass('active');
         var resource = $('.query-filter.active').text();
         $('#search').attr('action', '/' + resource.toLowerCase());
+        $("input[type='search']").attr('name', resource.toLowerCase().slice(0,-1) + '[query]');
     });
 
     $(document).on('click', '.clickable tr', function() {

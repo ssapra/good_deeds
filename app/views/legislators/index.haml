@@ -1,7 +1,7 @@
 .row
   .col.s10.offset-s1
     -if !@search_params.empty?
-      %h4="#{@num_legislators} legislators found for #{params[:query]}"
+      %h4="#{@num_legislators} legislators found for #{params[:legislator][:query]}"
       -if @legislators.any?
         %table.bordered.clickable.hoverable.responsive-table#results
           %thead

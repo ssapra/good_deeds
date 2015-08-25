@@ -1,7 +1,7 @@
 .row
   .col.s10.offset-s1
     -if !@search_params.empty?
-      %h4="#{@num_bills} bills found for #{params[:query]}"
+      %h4="#{@num_bills} bills found for #{params[:bill][:query]}"
       -if @pg_results.any?
         %table.bordered.clickable.hoverable.responsive-table#results
           %thead

@@ -36,4 +36,13 @@ class BillsController < ApplicationController
   def find_random_bill
     redirect_to bill_path(Bill.all.sample)
   end
+
+  def ensure_nonempty_query
+    @search_params = bill_params[:query].to_s.strip
+    render(layout: false) && return if @search_params.empty?
+  end
+
+  def bill_params
+    params.require(:bill).permit(:query)
+  end
 end

@@ -19,4 +19,15 @@ class LegislatorsController < ApplicationController
       format.json { render 'show', layout: false }
     end
   end
+
+  private
+
+  def ensure_nonempty_query
+    @search_params = legislator_params[:query].to_s.strip
+    render(layout: false) && return if @search_params.empty?
+  end
+
+  def legislator_params
+    params.require(:legislator).permit(:query)
+  end
 end
