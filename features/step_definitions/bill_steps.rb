@@ -20,6 +20,6 @@ end
 
 def search(filter, text)
   find('.query-filter', text: filter).click
-  fill_in('query', with: text)
+  find("input[type='search']").set(text)
   page.execute_script("$('form#search').submit()")
 end
