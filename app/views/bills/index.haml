@@ -12,7 +12,7 @@
             .row
               -@pg_results.each do |result|
                 -@bill = result.searchable
-                %tr{'data-url' => "/bills/#{@bill.bill_id}"}
+                =content_tag_for(:tr, @bill, 'data-url' => bill_path(@bill)) do
                   %td.col.s2=@bill.introduced_on.strftime('%B %-d, %Y')
                   %td.col.s10
                     =bill_title

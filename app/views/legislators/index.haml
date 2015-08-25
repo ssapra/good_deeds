@@ -13,7 +13,7 @@
           %tbody
             -@legislators.each do |legislator|
               -@legislator = legislator
-              %tr{'data-url' => "/legislators/#{legislator.id}"}
+              =content_tag_for(:tr, @legislator, 'data-url' => legislator_path(@legislator)) do
                 %td
                   %p=legislator_name
                   %p=verbose_summary
